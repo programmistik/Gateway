@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "Gateway.csproj", "{CDDAB655-AEBC-4DF3-A2FE-EE5DA92BDF05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{937E75A2-B4B5-4882-95DD-F15E8AEEB0EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{937E75A2-B4B5-4882-95DD-F15E8AEEB0EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyIdentityService", "MyIdentityService\MyIdentityService.csproj", "{DAB5BABA-86CF-459F-8500-A678E1BEDEFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleClient", "..\ConsoleClient\ConsoleClient.csproj", "{A0C8C5FC-217D-4A58-B0D3-D5093F9666E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gateway", "MyGateway\Gateway.csproj", "{E61BC311-C822-4152-9617-6A8BBA2D94D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CDDAB655-AEBC-4DF3-A2FE-EE5DA92BDF05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDDAB655-AEBC-4DF3-A2FE-EE5DA92BDF05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDDAB655-AEBC-4DF3-A2FE-EE5DA92BDF05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDDAB655-AEBC-4DF3-A2FE-EE5DA92BDF05}.Release|Any CPU.Build.0 = Release|Any CPU
 		{937E75A2-B4B5-4882-95DD-F15E8AEEB0EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{937E75A2-B4B5-4882-95DD-F15E8AEEB0EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{937E75A2-B4B5-4882-95DD-F15E8AEEB0EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{937E75A2-B4B5-4882-95DD-F15E8AEEB0EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAB5BABA-86CF-459F-8500-A678E1BEDEFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAB5BABA-86CF-459F-8500-A678E1BEDEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAB5BABA-86CF-459F-8500-A678E1BEDEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAB5BABA-86CF-459F-8500-A678E1BEDEFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C8C5FC-217D-4A58-B0D3-D5093F9666E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C8C5FC-217D-4A58-B0D3-D5093F9666E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C8C5FC-217D-4A58-B0D3-D5093F9666E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C8C5FC-217D-4A58-B0D3-D5093F9666E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E61BC311-C822-4152-9617-6A8BBA2D94D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E61BC311-C822-4152-9617-6A8BBA2D94D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E61BC311-C822-4152-9617-6A8BBA2D94D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E61BC311-C822-4152-9617-6A8BBA2D94D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

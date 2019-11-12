@@ -11,7 +11,7 @@ namespace IdentityServer
     {
         public static IEnumerable<IdentityResource> Ids =>
             new IdentityResource[]
-            { 
+            {
                 new IdentityResources.OpenId()
             };
 
@@ -36,5 +36,5 @@ namespace IdentityServer
                     AllowedScopes = { "PhotoUploader" }
                 }
             };
-
+    }
 }
