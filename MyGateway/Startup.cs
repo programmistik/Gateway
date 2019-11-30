@@ -22,7 +22,7 @@ namespace Gateway
                     options.Authority = "http://localhost:5001";
                     options.RequireHttpsMetadata = false;
 
-                    options.Audience = "PhotoUploader";
+                    options.Audience = "Post";
                 });
         }
 

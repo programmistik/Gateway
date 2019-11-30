@@ -9,8 +9,8 @@
           "Port": 3300
         }
       ],
-      "UpstreamPathTemplate": "/upload",
-      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+      "UpstreamPathTemplate": "/post",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []

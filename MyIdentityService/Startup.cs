@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using MyIdentityService.Models;
+using MyIdentityService.Services;
 
 namespace MyIdentityService
 {
@@ -24,6 +27,15 @@ namespace MyIdentityService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // requires using Microsoft.Extensions.Options
+            services.Configure<InstaDbSettings>(
+            Configuration.GetSection(nameof(InstaDbSettings)));
+
+            services.AddSingleton<IInstaDbSettings>(sp =>
+                sp.GetRequiredService<IOptions<InstaDbSettings>>().Value);
+
+            services.AddSingleton<ProfileService>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

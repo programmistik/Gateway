@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "ChangeProfile";
+}
+
+<h1>ChangeProfile</h1>
+<form asp-controller="Profile" asp-action="ChangeProfileInfo">
+    <label for="ImageUri">Avatara</label>
+
+    <div class="input-group mb-3">
+        @*<div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+            </div>*@
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile01" name="Avatara">
+            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="title">Name</label>
+        <input name="Name" type="text" class="form-control" id="title" placeholder="Enter your name">
+    </div>
+    <button type="submit" class="btn btn-primary btn-info" value="Create">Save</button>
+    <button type="button" class="btn btn-primary btn-dark" asp-controller="Profile" asp-action="UserProfile">Back</button>
+</form>
+
+

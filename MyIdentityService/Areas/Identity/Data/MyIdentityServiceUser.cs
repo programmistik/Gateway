@@ -9,5 +9,6 @@ namespace MyIdentityService.Areas.Identity.Data
     // Add profile data for application users by adding properties to the MyIdentityServiceUser class
     public class MyIdentityServiceUser : IdentityUser
     {
+      
     }
 }

@@ -9,7 +9,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Protocols;
 using MyIdentityService.Areas.Identity.Data;
+using MyIdentityService.Models;
+using MyIdentityService.Services;
 
 namespace MyIdentityService.Areas.Identity.Pages.Account
 {
@@ -20,17 +23,20 @@ namespace MyIdentityService.Areas.Identity.Pages.Account
         private readonly UserManager<MyIdentityServiceUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ProfileService _profileService;
 
         public RegisterModel(
             UserManager<MyIdentityServiceUser> userManager,
             SignInManager<MyIdentityServiceUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ProfileService profileService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _profileService = profileService;
         }
 
         [BindProperty]
@@ -71,6 +77,15 @@ namespace MyIdentityService.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    var newProfile = new Profile { 
+                        AppUserId = user.Email,
+                        Name = user.Email,
+                        Friends = new List<string>()
+                    };
+
+                    _profileService.Create(newProfile);
+
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

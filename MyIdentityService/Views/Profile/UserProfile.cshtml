@@ -1,7 +1,42 @@
-﻿
+﻿@model ProfileAndPosts
+
 @{
     ViewData["Title"] = "UserProfile";
 }
 
-<h1>UserProfile</h1>
+@*<script>
+    function imageError() {
+        let oldImage = event.target.src;
+        let img = event.target;
+        console.log('Error!');
+        img.src = '/giphy.gif';
 
+        setTimeout(function () {
+            img.src = oldImage;
+        }, 1000);
+    }</script>*@
+
+<h1>@Model.Profile.Name</h1>
+
+<img src="@(Model.Profile.Avatara ?? "http://abs2018.lbsafricaclub.org/wp-content/uploads/2016/03/profile-placeholder-300x300.png")" alt="@Model.Profile.Name" width="200" height="200" />
+<h5 > Name: @Model.Profile.Name</h5>
+
+<br />
+<a asp-controller="Profile" asp-action="ChangeProfile"  class="btn btn-primary">Change profile...</a>
+<a asp-controller="Post" asp-action="AddNewPost"  class="btn btn-primary">Add post...</a>
+
+<div class="row">
+    @foreach (var item in Model.Posts)
+    {
+        <div class="col-12 col-md-3">
+            <div class="card">
+                <img  src="https://instagramdata.blob.core.windows.net/previews/@item.Image" class="card-img-top" alt="@item.Title" height="250" style="object-fit: cover">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">@item.Description</p>
+                    <a asp-action="Details" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

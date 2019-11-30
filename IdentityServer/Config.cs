@@ -18,7 +18,7 @@ namespace IdentityServer
         public static IEnumerable<ApiResource> Apis =>
             new List<ApiResource>
         {
-            new ApiResource("PhotoUploader", "My API")
+            new ApiResource("Post", "My API")
         };
 
         public static IEnumerable<Client> Clients =>
@@ -33,7 +33,7 @@ namespace IdentityServer
                         new Secret("secret".Sha256())
                     },
 
-                    AllowedScopes = { "PhotoUploader" }
+                    AllowedScopes = { "Post" }
                 }
             };
     }
