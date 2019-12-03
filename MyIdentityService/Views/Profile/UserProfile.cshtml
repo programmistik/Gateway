@@ -16,27 +16,61 @@
         }, 1000);
     }</script>*@
 
-<h1>@Model.Profile.Name</h1>
+    <div class="container">
 
-<img src="@(Model.Profile.Avatara ?? "http://abs2018.lbsafricaclub.org/wp-content/uploads/2016/03/profile-placeholder-300x300.png")" alt="@Model.Profile.Name" width="200" height="200" />
-<h5 > Name: @Model.Profile.Name</h5>
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home"> My profile </a></li>
+            <li><a data-toggle="tab" href="#menu1"> My posts </a></li>
+            <li><a data-toggle="tab" href="#menu2"> My friends </a></li>
+            <li><a data-toggle="tab" href="#menu3"> My messages </a></li>     
+        </ul>
 
-<br />
-<a asp-controller="Profile" asp-action="ChangeProfile"  class="btn btn-primary">Change profile...</a>
-<a asp-controller="Post" asp-action="AddNewPost"  class="btn btn-primary">Add post...</a>
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <h3>Profile</h3>
 
-<div class="row">
-    @foreach (var item in Model.Posts)
-    {
-        <div class="col-12 col-md-3">
-            <div class="card">
-                <img  src="https://instagramdata.blob.core.windows.net/previews/@item.Image" class="card-img-top" alt="@item.Title" height="250" style="object-fit: cover">
-                <div class="card-body">
-                    <h5 class="card-title">@item.Title</h5>
-                    <p class="card-text">@item.Description</p>
-                    <a asp-action="Details" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                <h1>@Model.Profile.Name</h1>
+
+                <img src="/uploads/@(Model.Profile.Avatara ?? "http://abs2018.lbsafricaclub.org/wp-content/uploads/2016/03/profile-placeholder-300x300.png")" alt="@Model.Profile.Name" width="200" height="200" />
+                <h5> Name: @Model.Profile.Name</h5>
+
+                <br />
+                <a asp-controller="Profile" asp-action="ChangeProfile" class="btn btn-primary">Change profile...</a>
+
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                <h3>My posts</h3>
+
+                <a asp-controller="Post" asp-action="AddNewPost" class="btn btn-primary">Add post...</a>
+
+                <div class="row">
+                    @foreach (var item in Model.Posts)
+                    {
+                        <div class="col-12 col-md-3">
+                            <div class="card">
+                                <img src="https://instagramdata.blob.core.windows.net/previews/@item.Image" class="card-img-top" alt="@item.Title" height="250" style="object-fit: cover">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Title</h5>
+                                    <p class="card-text">@item.Description</p>
+                                    <a asp-action="Details" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
+
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <h3>My friends</h3>
+                <p>FRIENDS WILL BE HERE</p>
+            </div>
+            <div id="menu3" class="tab-pane fade">
+                <h3>My messages</h3>
+                <p>May be in the future...</p>
             </div>
         </div>
-    }
-</div>
+    </div>
+@*---*@
+
+
+

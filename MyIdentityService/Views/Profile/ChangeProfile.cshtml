@@ -1,10 +1,12 @@
-﻿
+﻿@model Profile
+
 @{
     ViewData["Title"] = "ChangeProfile";
 }
 
 <h1>ChangeProfile</h1>
-<form asp-controller="Profile" asp-action="ChangeProfileInfo">
+<form asp-controller="Profile" asp-action="ChangeProfileInfo" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <label for="ImageUri">Avatara</label>
 
     <div class="input-group mb-3">
@@ -20,7 +22,7 @@
 
     <div class="form-group">
         <label for="title">Name</label>
-        <input name="Name" type="text" class="form-control" id="title" placeholder="Enter your name">
+        <input name="Name" type="text" class="form-control" id="title" placeholder="Enter your name" value="@Model.Name">
     </div>
     <button type="submit" class="btn btn-primary btn-info" value="Create">Save</button>
     <button type="button" class="btn btn-primary btn-dark" asp-controller="Profile" asp-action="UserProfile">Back</button>

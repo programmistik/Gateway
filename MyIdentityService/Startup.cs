@@ -35,6 +35,7 @@ namespace MyIdentityService
                 sp.GetRequiredService<IOptions<InstaDbSettings>>().Value);
 
             services.AddSingleton<ProfileService>();
+            services.AddSingleton<IImageUploader, LocalImageUploader>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

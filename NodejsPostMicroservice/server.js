@@ -6,8 +6,6 @@ var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 
 var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
-//var productsRouter = require('./routes/products');
 var postsRouter = require('./routes/posts');
 
 var app = express();
@@ -47,7 +45,6 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-//app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 
 // catch 404 and forward to error handler
@@ -69,64 +66,8 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 
-//var express = require('express'),
-//    bodyParser = require('body-parser'),
-//    //_ = require('underscore'),
-//    //json = require('./movies.json'),
-//    app = express();
 
 app.set('port', process.env.PORT || 3300);
-//app.use(bodyParser.urlencoded());
-//app.use(bodyParser.json());
-
-//let mongo = require('mongodb');
-//let MClient = mongo.MongoClient;
-//let url = 'mongodb://localhost:27017';
-//let dbName = 'InstaApp';
-//let client = new MClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
-
-//var router = new express.Router();
-
-//// TO DO: Setup endpoints ...
-
-//router.get('/', function (req, res) {
-   
-//    client.connect(async (err, res) => {
-//        let db = client.db(dbName);
-//        let collection = db.collection('Posts');
-
-//        let result = await collection.find({}).toArray();
-
-//        res.json(result);
-//    });
-//});
-
-//router.post('/', function (req, res) {
-//    // insert the new item into the collection (validate first)
-//    if (req.body.Id && req.body.Title && req.body.ProfileId) {
-//        client.connect(async (err, res) => {
-
-//            if (err) {
-//                throw new Error(err);
-//            }
-
-//            let db = client.db(dbName);
-//            let coll = db.collection('Posts');
-
-//            let item = req.body;
-
-
-//            let response = await coll.insertOne(item);
-//            //console.log(response);
-//           res.json(item);
-//        });
-       
-//    } else {
-//        res.json(500, { error: 'There was an error!' });
-//    }
-//});
-
-//app.use('/', router);
 
 var server = app.listen(app.get('port'), function () {
     console.log('Server up: http://localhost:' + app.get('port'));

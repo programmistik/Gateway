@@ -4,7 +4,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel.Client;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MyIdentityService.Areas.Identity.Data;
 using MyIdentityService.Models;
 using MyIdentityService.Services;
 using MyIdentityService.ViewModels;
@@ -15,10 +18,14 @@ namespace MyIdentityService.Controllers
     public class ProfileController : Controller
     {
         private readonly ProfileService _profileService;
+        private readonly IImageUploader _imageUploader;
+        private readonly UserManager<MyIdentityServiceUser> _userManager;
 
-        public ProfileController(ProfileService profileService)
+        public ProfileController(ProfileService profileService, IImageUploader imageUploader, UserManager<MyIdentityServiceUser> userManager)
         {
             _profileService = profileService;
+            _imageUploader = imageUploader;
+            _userManager = userManager;
         }
 
         private async Task<List<Post>> GetPostsAsync ()
@@ -86,13 +93,21 @@ namespace MyIdentityService.Controllers
         {
             
 
-            return View();
+            return View(_profileService.Get(User.Identity.Name));
         }
-        public IActionResult ChangeProfileInfo(Profile prof)
+        public async Task<IActionResult> ChangeProfileInfo(Profile prof, IFormFile Avatara)
         {
             var profile = _profileService.Get(User.Identity.Name);
             prof.Id = profile.Id;
             prof.AppUserId = profile.AppUserId;
+            if (Avatara == null)
+            {
+                prof.Avatara = profile.Avatara;
+            }
+            else
+            {
+                prof.Avatara = await _imageUploader.Upload(Avatara);
+            }
             _profileService.Update(profile.Id, prof);
 
             return RedirectToAction("UserProfile");
