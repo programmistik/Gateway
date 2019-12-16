@@ -1,0 +1,42 @@
+﻿@model Post
+
+@{
+    ViewData["Title"] = "Post";
+}
+
+    <h1>
+        
+        @Html.DisplayFor(model => model.Title)
+    </h1>
+
+    <div>
+
+        <hr />
+        <dl class="row">
+           
+            <dd class="col-sm-10">
+                <img src="/uploads/@Model.Profile.Avatara" height="40" class="rounded-circle" />
+                @Html.DisplayFor(model => model.Profile.Name)
+            </dd>
+           
+            <dd class="col-sm-10">
+                Date: @Html.DisplayFor(model => model.Date)
+            </dd>
+           
+
+        </dl>
+        <p>
+            <img src="/uploads/@Model.Image" alt="@Model.Title" />
+        </p>
+        <h3><b>Description:</b></h3>
+        <p>
+            @Model.Description
+        </p>
+        <button id="like" type="button" class="btn btn-lg @(ViewBag.Color ? "btn-danger" : "btn-success") my-2" onclick="jsAddLike('@Model.Id')">❤ Like</button>
+
+    </div>
+<div>
+    <a asp-controller="Profile" asp-action="UserProfile" class="btn btn-lg btn-info my-2">Back</a>
+</div>
+
+<script src="~/js/site.js"></script>

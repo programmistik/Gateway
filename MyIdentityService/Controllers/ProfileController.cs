@@ -57,8 +57,13 @@ namespace MyIdentityService.Controllers
 
             //CALL API
             client.SetBearerToken(tokenResponse.AccessToken);
-           
-            var response = await client.GetAsync("http://localhost:5000/post"); 
+
+            var profile = _profileService.Get(User.Identity.Name);
+
+            // var response = await client.GetAsync("http://localhost:5000/post"); 
+            var UserId = profile.AppUserId;
+
+            var response = await client.GetAsync("http://localhost:5000/posts/"+UserId);
             if (!response.IsSuccessStatusCode)
             {
               //  Console.WriteLine(response.StatusCode);
@@ -71,14 +76,14 @@ namespace MyIdentityService.Controllers
             return new List<Post>();
         }
 
-        private async Task<List<Post>> GetAllPosts()
-        {
-            return  await GetPostsAsync();           
-        }
+        //private async Task<List<Post>> GetAllPosts()
+        //{
+        //    return  await GetPostsAsync();           
+        //}
 
         public async Task<IActionResult> UserProfile()
         {
-            IEnumerable<Post> posts = await GetAllPosts(); //await GetPostsAsync();
+            IEnumerable<Post> posts = await GetPostsAsync();
             var profile = _profileService.Get(User.Identity.Name);
 
             return View(new ProfileAndPosts { Profile = profile, Posts = posts });

@@ -7,10 +7,9 @@ let MongoClient = mongo.MongoClient;
 const url = 'mongodb://localhost:27017';
 const dbName = 'InstaApp';
 
-/* GET home page. */
+/* GET all posts */
 router.get('/', async (req, res) => {
 
-    console.log("get");
     const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
     let dbClient = await client.connect();
     let db = dbClient.db(dbName);
@@ -20,22 +19,32 @@ router.get('/', async (req, res) => {
     console.log(result);
 
     res.json(result);
-
-    //const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
-    //// let dbClient = await client.connect();
-    //client.connect(async (err, res) => {
-    //    let db = client.db(dbName);
-    //    let collection = db.collection('Posts');
-
-    //    let result = await collection.find().toArray();
-    //    // console.log(result);
-
-    //    res.json(result);
-    //    // res.render('index', { title: 'Express' });
-    //});
+    
 });
 
-// POST /
+// GET post by id   /posts/5
+router.get('/:id', async (req, res) => {
+    let id = req.params.id;
+    if (id) {
+        const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
+        let dbClient = await client.connect();
+        let db = dbClient.db(dbName);
+        let collection = db.collection('Posts');
+        let data = await collection.findOne({ Id: id });
+        res.json(data);
+    } else {
+        res.statusCode = 404;
+        res.statusMessage = 'Post not found!';
+        let error = {
+            code: res.statusCode,
+            message: res.statusMessage
+        };
+        res.json(error);
+    }
+});
+
+
+// POST / Create new post
 router.post('/', (req, res) => {
 
     if (req.body.Image && req.body.Title && req.body.ProfileId) {

@@ -34,6 +34,7 @@
     <Content Include="routes\posts.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="routes\search.js" />
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />

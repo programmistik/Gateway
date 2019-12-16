@@ -1,0 +1,30 @@
+﻿@model ProfileAndPosts
+
+@{
+    ViewData["Title"] = "ProfileView";
+}
+
+<h1>@Model.Profile.Name</h1>
+
+<img src="/uploads/@(Model.Profile.Avatara ?? "http://abs2018.lbsafricaclub.org/wp-content/uploads/2016/03/profile-placeholder-300x300.png")" alt="@Model.Profile.Name" width="200" height="200" class="rounded-circle" />
+<h5> Name: @Model.Profile.Name</h5>
+
+<br />
+<a asp-controller="Profile" asp-action="AddToFriendList" class="btn btn-primary">Add to friend list...</a>
+<div class="row">
+    @foreach (var item in Model.Posts)
+    {
+        <div class="col-12 col-md-3">
+            <div class="card">
+                <img src="/uploads/@item.Image" class="card-img-top" alt="@item.Title" height="250" style="object-fit: cover">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    @*<p class="card-text">@item.Description</p>*@
+                    <p class="card-text"><small class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</small></p>
+                    <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

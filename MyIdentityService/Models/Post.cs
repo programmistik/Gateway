@@ -11,7 +11,7 @@ namespace MyIdentityService.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string ProfileId { get; set; }
         public Profile Profile { get; set; }
