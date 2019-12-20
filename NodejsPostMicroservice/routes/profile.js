@@ -16,11 +16,9 @@ router.get('/:str', async (req, res) => {
         const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
         let dbClient = await client.connect();
         let db = dbClient.db(dbName);
-        let collection = db.collection('Posts');
+        let collection = db.collection('Profiles');
 
-       // let result = await collection.find({ Title: { $regex:  ".*" + qStr+".*" } }).toArray();
-        let result = await collection.find({ Title: { $regex: new RegExp("^" + qStr, "i")  } }).toArray();
-
+        let result = await collection.find({ Name: { $regex: new RegExp("^" + qStr, "i") } }).toArray();
         console.log(result);
 
         res.json(result);

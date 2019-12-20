@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace MyIdentityService.ViewModels
 {
-    public class ProfileAndPosts
+    public class SearchingResult
     {
-        public Profile Profile { get; set; }
+        public IEnumerable<Profile> Profiles { get; set; }
         public IEnumerable<Post> Posts { get; set; }
-        public int ActivePageNumber { get; set; }
     }
 }

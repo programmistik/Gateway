@@ -34,18 +34,14 @@
     <Content Include="routes\posts.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="routes\profile.js" />
     <Content Include="routes\search.js" />
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Content Include="server\routes.js">
-      <SubType>Code</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="controllers\" />
     <Folder Include="routes\" />
-    <Folder Include="server\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
 </Project>

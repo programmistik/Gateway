@@ -99,7 +99,7 @@ namespace MyIdentityService
 
             await AddNewPostAsync(newPost);
 
-            return RedirectToAction("UserProfile", "Profile");
+            return RedirectToAction("UserProfile", "Profile", new { id = 2 });
         }
 
         public async Task<IActionResult> Post(string id)

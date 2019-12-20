@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Mvc;
 using MyIdentityService.Models;
+using MyIdentityService.ViewModels;
 using Newtonsoft.Json;
 
 namespace MyIdentityService.Controllers
@@ -31,10 +32,10 @@ namespace MyIdentityService.Controllers
 
         public async Task<IActionResult> Search(string search)
         {
-            if (search.Length > 0)
+            if (search?.Length > 0)
             {
-                var list = await SearchAsync(search);
-                return View(list);
+                var res = await SearchAsync(search);
+                return View(res);
             }
             else
             {
@@ -44,8 +45,10 @@ namespace MyIdentityService.Controllers
             
         }
 
-        private async Task<List<Profile>> SearchAsync(string str)
+        private async Task<SearchingResult> SearchAsync(string str)
         {
+            var Result = new SearchingResult();
+
             //CONNECT
             var client = new HttpClient();
             var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
@@ -69,23 +72,38 @@ namespace MyIdentityService.Controllers
                 //Console.WriteLine(tokenResponse.Error);
                 //return;
             }
-            Console.WriteLine(tokenResponse.Json);
+            
 
             //CALL API
             client.SetBearerToken(tokenResponse.AccessToken);
 
             
-            var response = await client.GetAsync("http://localhost:5000/search/" + str);
+            var response = await client.GetAsync("http://localhost:5000/profile/" + str);
             if (!response.IsSuccessStatusCode)
+            {
+                //  Console.WriteLine(response.StatusCode);
+                Result.Profiles = new List<Profile>();
+            }
+            else
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                Result.Profiles = JsonConvert.DeserializeObject<List<Profile>>(content);
+            }
+
+
+            var responsePost = await client.GetAsync("http://localhost:5000/search/" + str.ToLower());
+            if (!responsePost.IsSuccessStatusCode)
             {
                 //  Console.WriteLine(response.StatusCode);
             }
             else
             {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<Profile>>(content);
+                var contentPost = await responsePost.Content.ReadAsStringAsync();
+                var rr = JsonConvert.DeserializeObject<List<Post>>(contentPost);
+                Result.Posts = rr;
             }
-            return new List<Profile>();
+
+            return Result;
         }
     }
 }

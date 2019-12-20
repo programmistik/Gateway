@@ -21,14 +21,14 @@
 <div class="container">
 
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#home"> My profile </a></li>
-        <li><a data-toggle="tab" href="#menu1"> My posts </a></li>
-        <li><a data-toggle="tab" href="#menu2"> My friends </a></li>
-        <li><a data-toggle="tab" href="#menu3"> My messages </a></li>
+        <li class= @(Model.ActivePageNumber == 1 ? "active" : "")><a data-toggle="tab" href="#home"> My profile </a></li>
+        <li class= @(Model.ActivePageNumber == 2 ? "active" : "")><a data-toggle="tab" href="#menu1"> My posts </a></li>
+        <li class= @(Model.ActivePageNumber == 3 ? "active" : "")><a data-toggle="tab" href="#menu2"> My friends </a></li>
+        <li class= @(Model.ActivePageNumber == 4 ? "active" : "")><a data-toggle="tab" href="#menu3"> My messages </a></li>
     </ul>
 
     <div class="tab-content">
-        <div id="home" class="tab-pane fade in active">
+        <div id="home" class="tab-pane fade @(Model.ActivePageNumber == 1 ? "in active" : "")">
             <h3>Profile</h3>
 
             <h1>@Model.Profile.Name</h1>
@@ -40,22 +40,24 @@
             <a asp-controller="Profile" asp-action="ChangeProfile" class="btn btn-primary">Change profile...</a>
 
         </div>
-        <div id="menu1" class="tab-pane fade">
+        <div id="menu1" class="tab-pane fade @(Model.ActivePageNumber == 2 ? "in active" : "")">
             <h3>My posts</h3>
 
             <a asp-controller="Post" asp-action="AddNewPost" class="btn btn-primary">Add post...</a>
+            <br />
 
             <div class="row">
                 @foreach (var item in Model.Posts)
                 {
                     <div class="col-12 col-md-3">
                         <div class="card">
-                            <img src="/uploads/@item.Image" class="card-img-top" alt="@item.Title" height="250" style="object-fit: cover">
+                            <img src="/uploads/@item.Image" class="card-img-top" alt="@item.Title" height="250" style=" image-orientation:from-image; object-fit: cover">
                             <div class="card-body">
                                 <h5 class="card-title">@item.Title</h5>
                                 @*<p class="card-text">@item.Description</p>*@
                                 <p class="card-text"><small class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</small></p>
                                 <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                                <a asp-controller="Profile" asp-action="UserProfile" class="btn btn-danger"  onclick="jsDelPost('@item.Id')">Delete</a>
                             </div>
                         </div>
                     </div>
@@ -63,11 +65,11 @@
             </div>
 
         </div>
-        <div id="menu2" class="tab-pane fade">
+        <div id="menu2" class="tab-pane fade @(Model.ActivePageNumber == 3 ? "in active" : "")">
             <h3>My friends</h3>
             <p>FRIENDS WILL BE HERE</p>
         </div>
-        <div id="menu3" class="tab-pane fade">
+        <div id="menu3" class="tab-pane fade @(Model.ActivePageNumber == 4 ? "in active" : "")">
             <h3>My messages</h3>
             <p>May be in the future...</p>
         </div>

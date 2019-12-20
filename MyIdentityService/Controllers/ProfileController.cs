@@ -81,12 +81,12 @@ namespace MyIdentityService.Controllers
         //    return  await GetPostsAsync();           
         //}
 
-        public async Task<IActionResult> UserProfile()
+        public async Task<IActionResult> UserProfile(int id = 1)
         {
             IEnumerable<Post> posts = await GetPostsAsync();
             var profile = _profileService.Get(User.Identity.Name);
 
-            return View(new ProfileAndPosts { Profile = profile, Posts = posts });
+            return View(new ProfileAndPosts { Profile = profile, Posts = posts, ActivePageNumber = id });
         }
 
         public IActionResult Settings(string id)
@@ -116,6 +116,67 @@ namespace MyIdentityService.Controllers
             _profileService.Update(profile.Id, prof);
 
             return RedirectToAction("UserProfile");
+        }
+
+        public async Task<IActionResult> ProfileView(string id)
+        {
+            IEnumerable<Post> posts = await GetPostsAsyncById(id);
+            var profile = _profileService.Get(id);
+            
+
+            var model = new ProfileAndPosts { Profile = profile, Posts = posts };
+
+            if (id == User.Identity.Name)
+                model.ActivePageNumber = 0;
+
+            else if (profile.Friends?.Where(x => x == id).Count() > 0)
+                model.ActivePageNumber = 2;
+            else
+                model.ActivePageNumber = 1;
+
+            return View(model);
+        }
+
+        private async Task<List<Post>> GetPostsAsyncById(string AppUserId)
+        {
+            //CONNECT
+            var client = new HttpClient();
+            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
+            if (disco.IsError)
+            {
+                //Console.WriteLine(disco.Error);
+                //return;
+            }
+
+            //GET TOKEN
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+
+                ClientId = "client",
+                ClientSecret = "secret",
+                Scope = "Post"
+            });
+
+            if (!tokenResponse.IsError)
+            {
+                //CALL API
+                client.SetBearerToken(tokenResponse.AccessToken);
+
+
+                var response = await client.GetAsync("http://localhost:5000/posts/" + AppUserId);
+                if (!response.IsSuccessStatusCode)
+                {
+                    //  Console.WriteLine(response.StatusCode);
+                }
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<Post>>(content);
+                }
+            }
+
+            return new List<Post>();
         }
     }
 }

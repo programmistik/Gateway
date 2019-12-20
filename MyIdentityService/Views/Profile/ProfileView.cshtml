@@ -10,7 +10,17 @@
 <h5> Name: @Model.Profile.Name</h5>
 
 <br />
-<a asp-controller="Profile" asp-action="AddToFriendList" class="btn btn-primary">Add to friend list...</a>
+
+@if (Model.ActivePageNumber == 1)
+{
+<button id="friend" type="button" class="btn btn-success" onclick="jsAddFriend('@Model.Profile.AppUserId')">Add to friends</button>
+}
+@if (Model.ActivePageNumber == 2)
+{
+<button id="friend" type="button" class="btn btn-danger" onclick="jsDeleteFriend('@Model.Profile.AppUserId')">Delete from friends</button>
+}
+
+
 <div class="row">
     @foreach (var item in Model.Posts)
     {

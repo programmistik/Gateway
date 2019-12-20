@@ -34,14 +34,14 @@
                     <ul class="navbar-nav">
                         <partial name="_LoginPartial" />
                     </ul>
-                    <ul class="navbar-nav mr-auto">
+                    @*<ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                    </ul>
+                    </ul>*@
 
 
                 </div>
@@ -81,6 +81,6 @@
     </environment>
     <script src="~/js/site.js" ></script>
 
-    @*@RenderSection("Scripts", required: false)*@
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
