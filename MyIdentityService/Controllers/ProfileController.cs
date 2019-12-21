@@ -100,6 +100,8 @@ namespace MyIdentityService.Controllers
 
             return View(_profileService.Get(User.Identity.Name));
         }
+
+        //public async Task<IActionResult> ChangeProfileInfo(Profile prof, IFormFile Avatara)
         public async Task<IActionResult> ChangeProfileInfo(Profile prof, IFormFile Avatara)
         {
             var profile = _profileService.Get(User.Identity.Name);

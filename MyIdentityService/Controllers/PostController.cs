@@ -85,6 +85,7 @@ namespace MyIdentityService
             return View(new Post());
         }
 
+        //public async Task<IActionResult> NewPost(Post newPost, IFormFile Image)
         public async Task<IActionResult> NewPost(Post newPost, IFormFile Image)
         {
             var profile = _profileService.Get(User.Identity.Name);
