@@ -108,8 +108,28 @@ router.post('/', (req, res) => {
    }
 });
 
+// DELETE post by id
+router.delete('/:id', (req, res) => {
+    let id = req.params.id;
 
+    const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
+    client.connect(async (err, resp) => {
+        if (err) {
+            throw new Error(err);
+        }
+   // let dbClient = await client.connect();
+    let db = client.db(dbName);
+    let collection = db.collection('Posts');
 
+    var myquery = { Id: id };
+    collection.deleteOne(myquery, function (err, obj) {
+        if (err) throw err;
+        console.log("1 document deleted");
+        res.sendStatus(200);
+    });
+    });
+
+});
 
 
 module.exports = router;

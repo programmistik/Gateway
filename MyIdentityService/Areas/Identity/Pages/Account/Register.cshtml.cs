@@ -79,6 +79,7 @@ namespace MyIdentityService.Areas.Identity.Pages.Account
                 {
                     var newProfile = new Profile { 
                         AppUserId = user.Email,
+                        IdentityId = user.Id,
                         Name = user.Email,
                         Friends = new List<string>()
                     };

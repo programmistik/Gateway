@@ -53,14 +53,12 @@ namespace MyIdentityService.Controllers
                 //Console.WriteLine(tokenResponse.Error);
                 //return;
             }
-            Console.WriteLine(tokenResponse.Json);
 
             //CALL API
             client.SetBearerToken(tokenResponse.AccessToken);
 
             var profile = _profileService.Get(User.Identity.Name);
 
-            // var response = await client.GetAsync("http://localhost:5000/post"); 
             var UserId = profile.AppUserId;
 
             var response = await client.GetAsync("http://localhost:5000/posts/"+UserId);
@@ -101,19 +99,20 @@ namespace MyIdentityService.Controllers
             return View(_profileService.Get(User.Identity.Name));
         }
 
-        //public async Task<IActionResult> ChangeProfileInfo(Profile prof, IFormFile Avatara)
-        public async Task<IActionResult> ChangeProfileInfo(Profile prof, IFormFile Avatara)
+        public async Task<IActionResult> ChangeProfileInfo(Profile prof, string Avatara, string Ava)
+        //     public async Task<IActionResult> ChangeProfileInfo(Profile prof, IFormFile Avatara)
         {
             var profile = _profileService.Get(User.Identity.Name);
             prof.Id = profile.Id;
             prof.AppUserId = profile.AppUserId;
-            if (Avatara == null)
+            prof.IdentityId = profile.IdentityId;
+            if (Ava == null)
             {
                 prof.Avatara = profile.Avatara;
             }
             else
             {
-                prof.Avatara = await _imageUploader.Upload(Avatara);
+                prof.Avatara = await _imageUploader.UploadAva(Ava, profile.IdentityId);
             }
             _profileService.Update(profile.Id, prof);
 

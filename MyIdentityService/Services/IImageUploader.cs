@@ -9,6 +9,6 @@ namespace MyIdentityService.Services
     public interface IImageUploader
     {
         Task<string> Upload(IFormFile file);
-        //Task<string> Upload(IFormFileCollection files);
+        Task<string> UploadAva(string file, string IdentityId);
     }
 }

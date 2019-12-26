@@ -15,8 +15,10 @@
         <dl class="row">
            
             <dd class="col-sm-10">
-                <img src="/uploads/@Model.Profile.Avatara" height="40" class="rounded-circle" />
-                @Html.DisplayFor(model => model.Profile.Name)
+                <img src="/uploads/profiles/@Model.Profile.Avatara" height="40" class="rounded-circle" />
+                <a asp-controller="Profile" asp-action="ProfileView" asp-route-id="@Model.Profile.AppUserId" >
+                    @Html.DisplayFor(model => model.Profile.Name)
+                </a>
             </dd>
            
             <dd class="col-sm-10">

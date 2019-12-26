@@ -31,9 +31,17 @@
         <div id="home" class="tab-pane fade @(Model.ActivePageNumber == 1 ? "in active" : "")">
             <h3>Profile</h3>
 
-            <h1>@Model.Profile.Name</h1>
+            @if (Model.Profile.Avatara == null)
+            {
+                <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg" width="150"
+                     class="rounded-circle z-depth-1-half avatar-pic" alt="example placeholder avatar">
+            }
+            else
+            {
+                <img src="/uploads/profiles/@(Model.Profile.Avatara) " alt="@Model.Profile.Name" width="200" height="200" class="rounded-circle" />
+            }
 
-            <img src="/uploads/@(Model.Profile.Avatara ?? "http://abs2018.lbsafricaclub.org/wp-content/uploads/2016/03/profile-placeholder-300x300.png")" alt="@Model.Profile.Name" width="200" height="200" class="rounded-circle" />
+
             <h5> Name: @Model.Profile.Name</h5>
 
             <br />
@@ -57,7 +65,7 @@
                                 @*<p class="card-text">@item.Description</p>*@
                                 <p class="card-text"><small class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</small></p>
                                 <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-                                <a asp-controller="Profile" asp-action="UserProfile" class="btn btn-danger"  onclick="jsDelPost('@item.Id')">Delete</a>
+                                <a class="btn btn-danger"  onclick="jsDelPost('@item.Id')">Delete</a>
                             </div>
                         </div>
                     </div>

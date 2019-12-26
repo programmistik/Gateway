@@ -4,19 +4,68 @@
     ViewData["Title"] = "ChangeProfile";
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
+
 <h1>ChangeProfile</h1>
 <form asp-controller="Profile" asp-action="ChangeProfileInfo" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <label for="ImageUri">Avatara</label>
 
     <div class="input-group mb-3">
-        @*<div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-            </div>*@
-        <div class="custom-file">
+        @*<div class="custom-file">
             <input type="file" class="custom-file-input" id="inputGroupFile01" name="Avatara">
             <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+        </div>*@
+        <main class="page">
+
+            <div class="box-2">
+                <div class="result"></div>
+            </div>
+
+            <div class="box-2 img-result hide">
+                <!-- result of crop -->
+                <img class="cropped" name="Avatara" src="" alt="">
+            </div>
+
+            <div class="box">
+                <input type="file" id="file-input">
+            </div>
+
+
+            <div class="box">
+                <div class="options hide">
+                    <!-- save btn -->
+                </div>
+                <button class="btn save hide btn-info">Save</button>
+
+            </div>
+        </main>
+        <div class="form-group">
+            
+            <input name="Ava" type="text" class="form-control hide" id="Ava" >
         </div>
+
+        @*<div class="file-field">
+            <div class="mb-4">
+                @if (Model.Avatara == null)
+                {
+                    <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg" width="150"
+                         class="rounded-circle z-depth-1-half avatar-pic" alt="example placeholder avatar">
+                }
+                else
+                {
+                    <img src="/uploads/@(Model.Avatara) " alt="@Model.Name" width="200" height="200" class="rounded-circle" />
+                }
+
+            </div>
+            <div class="d-flex justify-content-lg-start">
+                <div class="btn btn-mdb-color btn-rounded float-left">
+                    <span>Add photo</span>
+                    <input type="file" name="Avatara">
+                </div>
+            </div>
+        </div>*@
     </div>
 
 
@@ -24,9 +73,16 @@
         <label for="name">Name</label>
         <input name="Name" type="text" class="form-control" id="name" placeholder="Enter your name" value="@Model.Name">
     </div>
+    <div class="form-group">
+        <label for="from">From</label>
+        <input name="From" type="text" class="form-control" id="from" value="@Model.From">
+    </div>
     <button type="submit" class="btn btn-primary btn-info" value="Create">Save</button>
-    
+
 </form>
-<a class="btn btn-primary btn-dark" asp-controller="Profile" asp-action="UserProfile">Back</a>
+<div>
+    <a class="btn btn-primary btn-dark" asp-controller="Profile" asp-action="UserProfile">Back</a>
+</div>
+<script src="~/js/Ava.js"></script>
 
 

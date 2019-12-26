@@ -24,3 +24,17 @@ function jsAddLike(id) {
     });
 }
 
+function jsDelPost(id) {
+
+    $.ajax({
+        url: '/Post/jsDelPost',
+        type: 'DELETE',
+        data: { id: id },
+        success: function (data) {
+           
+        }
+    });
+}
+
+
+

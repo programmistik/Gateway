@@ -251,6 +251,52 @@ namespace MyIdentityService
             }
 
         }
+
+        [HttpDelete]
+        public async Task jsDelPost(string id)
+        {
+
+            //CONNECT
+            var client = new HttpClient();
+            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
+            if (disco.IsError)
+            {
+                // Console.WriteLine(disco.Error);
+                return;
+            }
+
+            //GET TOKEN
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+
+                ClientId = "client",
+                ClientSecret = "secret",
+                Scope = "Post"
+            });
+            if (tokenResponse.IsError)
+            {
+                // Console.WriteLine(tokenResponse.Error);
+                return;
+            }
+            //Console.WriteLine(tokenResponse.Json);
+
+            //CALL API
+            client.SetBearerToken(tokenResponse.AccessToken);
+
+            var response = await client.DeleteAsync("http://localhost:5000/post"+id);
+            if (!response.IsSuccessStatusCode)
+            {
+                //Console.WriteLine(response.StatusCode);
+            }
+            else
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                //Console.WriteLine(content);
+            }
+
+
+        }
     }
 
     public class ReqStr
