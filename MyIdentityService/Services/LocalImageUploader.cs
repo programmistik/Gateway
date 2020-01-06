@@ -39,6 +39,20 @@ namespace MyIdentityService.Services
 
             }
 
+            // Add small size
+            using (MagickImage image = new MagickImage(fullPath))
+            {
+                // MagickGeometry size = new MagickGeometry(100, 100);
+                // This will resize the image to a fixed size without maintaining the aspect ratio.
+                // Normally an image will be resized to fit inside the specified size.
+                var size = new Percentage(50);                 
+
+                image.Resize(size);
+
+                // Save the result
+                image.Write("wwwroot/uploads/min." + filename);
+            }
+
             return filename;
         }
 
