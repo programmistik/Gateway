@@ -11,7 +11,7 @@ const dbName = 'InstaApp';
 /* GET search by str */
 router.get('/:str', async (req, res) => {
     let qStr = req.params.str;
-    console.log(qStr);
+   
     if (qStr) {
         const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
         let dbClient = await client.connect();
@@ -19,7 +19,7 @@ router.get('/:str', async (req, res) => {
         let collection = db.collection('Profiles');
 
         let result = await collection.find({ Name: { $regex: new RegExp("^" + qStr, "i") } }).toArray();
-        console.log(result);
+        
 
         res.json(result);
     } else {

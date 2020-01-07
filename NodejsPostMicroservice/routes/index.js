@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
     let collection = db.collection('Posts');
 
     let result = await collection.find().toArray();
-    console.log(result);
+   
 
     res.json(result);
     

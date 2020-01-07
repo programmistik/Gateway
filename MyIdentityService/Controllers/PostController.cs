@@ -85,7 +85,6 @@ namespace MyIdentityService
             return View(new Post());
         }
 
-        //public async Task<IActionResult> NewPost(Post newPost, IFormFile Image)
         public async Task<IActionResult> NewPost(Post newPost, IFormFile Image)
         {
             var profile = _profileService.Get(User.Identity.Name);
@@ -282,9 +281,18 @@ namespace MyIdentityService
             //Console.WriteLine(tokenResponse.Json);
 
             //CALL API
-            client.SetBearerToken(tokenResponse.AccessToken);
+           
+           // var js = JsonConvert.SerializeObject(new {id = id }); ;
 
-            var response = await client.DeleteAsync("http://localhost:5000/post"+id);
+
+            client.SetBearerToken(tokenResponse.AccessToken);
+            //HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
+
+           // id = "123";
+
+            //var response = await client.PutAsync("http://localhost:5000/posts", cont);
+
+            var response = await client.DeleteAsync("http://localhost:5000/posts/"+id);
             if (!response.IsSuccessStatusCode)
             {
                 //Console.WriteLine(response.StatusCode);

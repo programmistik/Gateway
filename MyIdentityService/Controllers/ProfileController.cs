@@ -74,10 +74,7 @@ namespace MyIdentityService.Controllers
             return new List<Post>();
         }
 
-        //private async Task<List<Post>> GetAllPosts()
-        //{
-        //    return  await GetPostsAsync();           
-        //}
+      
 
         public async Task<IActionResult> UserProfile(int id = 1)
         {
@@ -179,5 +176,8 @@ namespace MyIdentityService.Controllers
 
             return new List<Post>();
         }
+
+
+
     }
 }

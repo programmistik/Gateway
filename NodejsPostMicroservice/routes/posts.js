@@ -18,7 +18,7 @@ router.get('/:id', async (req, res) => {
         let collection = db.collection('Posts');
 
         let result = await collection.find({ ProfileId : id }).toArray();
-        console.log(result);
+        
 
         res.json(result);
     } else {
@@ -110,8 +110,10 @@ router.post('/', (req, res) => {
 
 // DELETE post by id
 router.delete('/:id', (req, res) => {
+    console.log("start delete");
     let id = req.params.id;
-
+    
+    console.log(id);
     const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
     client.connect(async (err, resp) => {
         if (err) {

@@ -36,5 +36,24 @@ function jsDelPost(id) {
     });
 }
 
+function jsAddFriend(id) {
+
+    $.ajax({
+        url: '/Profile/jsAddFriend',
+        type: 'POST',
+        data: { id: id },
+        success: function (data) {
+            let btn = $('#like');
+            if (btn.hasClass('btn-danger')) {
+                btn.removeClass('btn-danger').addClass('btn-success');
+            }
+            else {
+                btn.removeClass('btn-success').addClass('btn-danger');
+            }
+           
+        }
+    });
+}
+
 
 
