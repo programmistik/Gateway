@@ -25,15 +25,25 @@ function jsAddLike(id) {
 }
 
 function jsDelPost(id) {
+    if (confirm("Are you sure you want to delete this post?")) {
+        
 
-    $.ajax({
-        url: '/Post/jsDelPost',
-        type: 'DELETE',
-        data: { id: id },
-        success: function (data) {
-           
-        }
-    });
+        $.ajax({
+            url: '/Post/jsDelPost',
+            type: 'DELETE',
+            data: { id: id },
+            success: function (data) {
+                //location.reload(true);
+                $.ajax({
+                    url: '/Profile/UserProfile',
+                    data: { id: 2 },
+                    success: function (data) {
+                       
+                    }
+                });
+            }
+        });
+    }
 }
 
 function jsAddFriend(id) {

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyIdentityService.Models;
 using MyIdentityService.Services;
+using MyIdentityService.ViewModels;
 using Newtonsoft.Json;
 
 namespace MyIdentityService
@@ -104,13 +105,22 @@ namespace MyIdentityService
 
         public async Task<IActionResult> Post(string id)
         {
+            var vm = new PostViewModel();
             var currPost = await GetPostByIdAsync(id);
+            vm.Post = currPost;
+            if (currPost.Profile.AppUserId == User.Identity.Name)
+                vm.Owener = true;
+            else
+                vm.Owener = false;
+
+            vm.Profile = _profileService.Get(currPost.Profile.AppUserId);
+
             if (currPost.LikesProfileId.Contains(User.Identity.Name))
                 ViewBag.Color = true;
             else
                 ViewBag.Color = false;
 
-            return View(currPost);
+            return View(vm);
         }
 
         private async Task<Post> GetPostByIdAsync(string id)
@@ -282,20 +292,15 @@ namespace MyIdentityService
 
             //CALL API
            
-           // var js = JsonConvert.SerializeObject(new {id = id }); ;
-
-
+         
             client.SetBearerToken(tokenResponse.AccessToken);
-            //HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
-
-           // id = "123";
-
-            //var response = await client.PutAsync("http://localhost:5000/posts", cont);
+            
 
             var response = await client.DeleteAsync("http://localhost:5000/posts/"+id);
             if (!response.IsSuccessStatusCode)
             {
                 //Console.WriteLine(response.StatusCode);
+              // return RedirectToAction("UserProfile", "Profile", new { id = 2 });
             }
             else
             {

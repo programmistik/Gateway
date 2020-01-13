@@ -1,4 +1,4 @@
-﻿@model Post
+﻿@model PostViewModel
 
 @{
     ViewData["Title"] = "Post";
@@ -6,7 +6,7 @@
 
     <h1>
         
-        @Html.DisplayFor(model => model.Title)
+        @Html.DisplayFor(model => model.Post.Title)
     </h1>
 
     <div>
@@ -22,20 +22,22 @@
             </dd>
            
             <dd class="col-sm-10">
-                Date: @Html.DisplayFor(model => model.Date)
+                Date: @Html.DisplayFor(model => model.Post.Date)
             </dd>
            
 
         </dl>
         <p>
-            <img src="/uploads/@Model.Image" alt="@Model.Title" />
+            <img src="/uploads/@Model.Post.Image" alt="@Model.Post.Title" />
         </p>
         <h3><b>Description:</b></h3>
         <p>
-            @Model.Description
+            @Model.Post.Description
         </p>
-        <button id="like" type="button" class="btn btn-lg @(ViewBag.Color ? "btn-danger" : "btn-success") my-2" onclick="jsAddLike('@Model.Id')">❤ Like</button>
-
+        @if (Model.Owener == false)
+        {
+        <button id="like" type="button" class="btn btn-lg @(ViewBag.Color ? "btn-danger" : "btn-success") my-2" onclick="jsAddLike('@Model.Post.Id')">❤ Like</button>
+        }
     </div>
 <div>
     @*<a asp-controller="Profile" asp-action="UserProfile" asp-route-id="2" class="btn btn-lg btn-info my-2">Back</a>*@

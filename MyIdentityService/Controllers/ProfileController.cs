@@ -97,7 +97,6 @@ namespace MyIdentityService.Controllers
         }
 
         public async Task<IActionResult> ChangeProfileInfo(Profile prof, string Avatara, string Ava)
-        //     public async Task<IActionResult> ChangeProfileInfo(Profile prof, IFormFile Avatara)
         {
             var profile = _profileService.Get(User.Identity.Name);
             prof.Id = profile.Id;
