@@ -81,7 +81,7 @@ namespace MyIdentityService.Areas.Identity.Pages.Account
                         AppUserId = user.Email,
                         IdentityId = user.Id,
                         Name = user.Email,
-                        Friends = new List<string>()
+                        Friends = new List<string>() { }
                     };
 
                     _profileService.Create(newProfile);

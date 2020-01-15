@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Http;
@@ -102,6 +103,8 @@ namespace MyIdentityService.Controllers
             prof.Id = profile.Id;
             prof.AppUserId = profile.AppUserId;
             prof.IdentityId = profile.IdentityId;
+            prof.Friends = profile.Friends;
+
             if (Ava == null)
             {
                 prof.Avatara = profile.Avatara;
@@ -122,11 +125,12 @@ namespace MyIdentityService.Controllers
             
 
             var model = new ProfileAndPosts { Profile = profile, Posts = posts };
+            var myProfile = _profileService.Get(User.Identity.Name);
 
             if (id == User.Identity.Name)
                 model.ActivePageNumber = 0;
 
-            else if (profile.Friends?.Where(x => x == id).Count() > 0)
+            else if (myProfile.Friends?.Where(x => x == id).Count() > 0)
                 model.ActivePageNumber = 2;
             else
                 model.ActivePageNumber = 1;
@@ -176,7 +180,85 @@ namespace MyIdentityService.Controllers
             return new List<Post>();
         }
 
+        [HttpPost]
+        public async Task jsAddFriend(string id)
+        {
+            var obj = new ReqFriendStr
+            {
+                Id = User.Identity.Name,
+                //Method = "Add",
+                UserId = id
+            };
 
+            var myProfile = _profileService.Get(User.Identity.Name);
+
+            if (myProfile.Friends?.Where(x => x == id).Count() > 0)
+                obj.Method = "Del"; 
+            else
+                obj.Method = "Add";
+
+            await ChangeFriendListAsync(obj);
+        }
+
+        public async Task ChangeFriendListAsync(ReqFriendStr obj)
+        {
+
+            //CONNECT
+            var client = new HttpClient();
+            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
+            if (disco.IsError)
+            {
+                // Console.WriteLine(disco.Error);
+                return;
+            }
+
+            //GET TOKEN
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+
+                ClientId = "client",
+                ClientSecret = "secret",
+                Scope = "Post"
+            });
+            if (tokenResponse.IsError)
+            {
+                // Console.WriteLine(tokenResponse.Error);
+                return;
+            }
+            //Console.WriteLine(tokenResponse.Json);
+
+            //CALL API
+
+
+
+            var js = JsonConvert.SerializeObject(obj);
+
+
+            client.SetBearerToken(tokenResponse.AccessToken);
+            HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
+
+
+
+            var response = await client.PutAsync("http://localhost:5000/friends", cont);
+            if (!response.IsSuccessStatusCode)
+            {
+                //Console.WriteLine(response.StatusCode);
+            }
+            else
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                //Console.WriteLine(content);
+            }
+
+        }
+
+        public class ReqFriendStr
+        {
+            public string Id { get; set; }
+            public string Method { get; set; }
+            public string UserId { get; set; }
+        }
 
     }
 }

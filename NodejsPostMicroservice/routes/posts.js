@@ -110,10 +110,10 @@ router.post('/', (req, res) => {
 
 // DELETE post by id
 router.delete('/:id', (req, res) => {
-    console.log("start delete");
+   // console.log("start delete");
     let id = req.params.id;
     
-    console.log(id);
+   // console.log(id);
     const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
     client.connect(async (err, resp) => {
         if (err) {

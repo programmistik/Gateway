@@ -53,12 +53,14 @@ function jsAddFriend(id) {
         type: 'POST',
         data: { id: id },
         success: function (data) {
-            let btn = $('#like');
+            let btn = $('#friend');
             if (btn.hasClass('btn-danger')) {
                 btn.removeClass('btn-danger').addClass('btn-success');
+                btn.html("Add to friends");
             }
             else {
                 btn.removeClass('btn-success').addClass('btn-danger');
+                btn.html("Delete from friends");
             }
            
         }
