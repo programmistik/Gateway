@@ -19,11 +19,51 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="~/vendor/plagins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" type="text/css">
+
     <link rel="stylesheet" href="~/css/site.css" />
+    <link type="text/css" href="~/css/my.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/app.css" rel="stylesheet" />
+   
+
+    
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <!-- ==============================================
+         Navigation Section
+         =============================================== -->
+        <nav class="navbar navbar-light navbar-toggleable-sm bg-faded justify-content-between navbar-expand-sm" id="mainNav-2">
+
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> MY SITE</a>
+            <div class="navbar-collapse collapse justify-content-between">
+                <div><!--placeholder to evenly space flexbox items and center links--></div>
+                <ul class="navbar-nav">
+                    <!-- Search in right of nav -->
+                    <li class="nav-item hidden-xs-down">
+                        <form class="top_search clearfix" asp-controller="Home" asp-action="Search">
+                            <div class="top_search_con">
+                                <input class="s" placeholder="Search Here ..." type="text" name="search">
+                                <span class="top_search_icon"><i class="fas fa-search"></i></span>
+                                <input class="top_search_submit" type="submit">
+                            </div>
+                        </form>
+                    </li>
+                    <!-- Search Ends -->
+                </ul>
+
+
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav">
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </div>
+
+
+            </div><!-- /navbar-collapse -->
+        </nav><!-- /nav -->
+
+        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyIdentityService</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -38,7 +78,7 @@
 
                 </div>
             </div>
-        </nav>
+        </nav>*@
     </header>
     <div class="container">
         <partial name="_CookieConsentPartial" />
@@ -50,6 +90,7 @@
     <footer class="border-top footer text-muted" style="position:relative;">
         <div class="container">
             &copy; 2019 - MyIdentityService - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <a id="scrollup">Scroll</a>
         </div>
     </footer>
 
@@ -71,7 +112,8 @@
                 integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
         </script>
     </environment>
-    <script src="~/js/site.js" ></script>
+    <script src="~/js/site.js"></script>
+
 
     @RenderSection("Scripts", required: false)
 </body>

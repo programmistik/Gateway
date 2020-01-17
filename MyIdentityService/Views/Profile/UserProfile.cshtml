@@ -6,15 +6,17 @@
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link type="text/css" href="css/my.css" rel="stylesheet" />
+<link type="text/css" href="css/app.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <div class="container">
 
     <ul class="nav nav-tabs">
-        <li class= @(Model.ActivePageNumber == 1 ? "active" : "")><a data-toggle="tab" href="#home"> My profile </a></li>
-        <li class= @(Model.ActivePageNumber == 2 ? "active" : "")><a data-toggle="tab" href="#menu1"> My posts </a></li>
-        <li class= @(Model.ActivePageNumber == 3 ? "active" : "")><a data-toggle="tab" href="#menu2"> My friends </a></li>
-        <li class= @(Model.ActivePageNumber == 4 ? "active" : "")><a data-toggle="tab" href="#menu3"> My messages </a></li>
+        <li class=@(Model.ActivePageNumber == 1 ? "active" : "")><a data-toggle="tab" href="#home"> My profile </a></li>
+        <li class=@(Model.ActivePageNumber == 2 ? "active" : "")><a data-toggle="tab" href="#menu1"> My posts </a></li>
+        <li class=@(Model.ActivePageNumber == 3 ? "active" : "")><a data-toggle="tab" href="#menu2"> My friends </a></li>
+        <li class=@(Model.ActivePageNumber == 4 ? "active" : "")><a data-toggle="tab" href="#menu3"> My messages </a></li>
     </ul>
 
     <div class="tab-content">
@@ -40,14 +42,14 @@
         </div>
         <div id="menu1" class="tab-pane fade @(Model.ActivePageNumber == 2 ? "in active" : "")">
             <h3>My posts</h3>
-
-            <a asp-controller="Post" asp-action="AddNewPost" class="btn btn-primary">Add post...</a>
-            <br />
+            <div class="m-2">
+                <a asp-controller="Post" asp-action="AddNewPost" class="btn btn-primary">Add post...</a>
+            </div>
 
             <div class="row">
                 @foreach (var item in Model.Posts)
                 {
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-3" id="@item.Id">
                         <div class="card">
                             <img src="/uploads/@item.Image" class="card-img-top" alt="@item.Title" height="250" style=" image-orientation:from-image; object-fit: cover">
                             <div class="card-body">
@@ -55,7 +57,7 @@
                                 @*<p class="card-text">@item.Description</p>*@
                                 <p class="card-text"><small class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</small></p>
                                 <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-                                <a class="btn btn-danger"  onclick="jsDelPost('@item.Id')">Delete</a>
+                                <a class="btn btn-danger" onclick="jsDelPost('@item.Id')">Delete</a>
                             </div>
                         </div>
                     </div>
@@ -65,7 +67,43 @@
         </div>
         <div id="menu2" class="tab-pane fade @(Model.ActivePageNumber == 3 ? "in active" : "")">
             <h3>My friends</h3>
-            <p>FRIENDS WILL BE HERE</p>
+            
+            <table class="table table-hover">
+                @*<thead>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>*@
+                <tbody>
+                    @foreach (var item in Model.Friends)
+                    {
+                        <tr>
+                            <td>
+                                <img src="/uploads/profiles/100x100.@item.Avatara" height="40" class="rounded-circle" />
+                                <a asp-controller="Profile" asp-action="ProfileView" asp-route-id="@item.AppUserId">
+                                    @item.Name
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-controller="" asp-action="" class="btn btn-info my-2">Send message</a>
+                            </td>
+                            
+                        </tr>
+                    }
+                        @*<tr>
+                            <td>Mary</td>
+                            <td>Moe</td>
+                            <td>mary@example.com</td>
+                        </tr>
+                        <tr>
+                            <td>July</td>
+                            <td>Dooley</td>
+                            <td>july@example.com</td>
+                        </tr>*@
+                    </tbody>
+            </table>
         </div>
         <div id="menu3" class="tab-pane fade @(Model.ActivePageNumber == 4 ? "in active" : "")">
             <h3>My messages</h3>

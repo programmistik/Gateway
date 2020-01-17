@@ -5,20 +5,23 @@
 }
 
 <h1>@Model.Profile.Name</h1>
+<hr>
 
-<img src="/uploads/profiles/@(Model.Profile.Avatara ?? "http://abs2018.lbsafricaclub.org/wp-content/uploads/2016/03/profile-placeholder-300x300.png")" alt="@Model.Profile.Name" width="200" height="200" class="rounded-circle" />
-<h5> Name: @Model.Profile.Name</h5>
+    <img src="/uploads/profiles/@(Model.Profile.Avatara ?? "http://abs2018.lbsafricaclub.org/wp-content/uploads/2016/03/profile-placeholder-300x300.png")" alt="@Model.Profile.Name" width="200" height="200" class="rounded-circle" />
+    <h5> Name: @Model.Profile.Name</h5>
 
-<br />
+    <br />
+@if (ViewBag.ShowButton)
+{
+    <div>
+        <button id="friend" type="button" class="btn  @(Model.ActivePageNumber == 2 ? "btn-danger" : "btn-success")" onclick="jsAddFriend('@Model.Profile.AppUserId')">
+            @(Model.ActivePageNumber == 1 ? "Add to friends" : "Delete from friends")
+        </button>
+    </div>
+}
 
-<div>
-    <button id="friend" type="button" class="btn  @(Model.ActivePageNumber == 2 ? "btn-danger" : "btn-success")" onclick="jsAddFriend('@Model.Profile.AppUserId')">
-        @(Model.ActivePageNumber == 1 ? "Add to friends" : "Delete from friends")
-    </button>
-</div>
-
-<br />
-    <div class="row">
+    <br />
+    <div class="row mt-2">
         @foreach (var item in Model.Posts)
         {
             <div class="col-12 col-md-3">

@@ -34,13 +34,14 @@ function jsDelPost(id) {
             data: { id: id },
             success: function (data) {
                 //location.reload(true);
-                $.ajax({
-                    url: '/Profile/UserProfile',
-                    data: { id: 2 },
-                    success: function (data) {
+                document.getElementById(id).remove();
+                //$.ajax({
+                //    url: '/Profile/UserProfile',
+                //    data: { id: 2 },
+                //    success: function (data) {
                        
-                    }
-                });
+                //    }
+                //});
             }
         });
     }

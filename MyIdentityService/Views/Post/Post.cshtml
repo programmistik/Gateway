@@ -4,43 +4,66 @@
     ViewData["Title"] = "Post";
 }
 
-    <h1>
-        
-        @Html.DisplayFor(model => model.Post.Title)
-    </h1>
 
-    <div>
+<h1>
 
-        <hr />
+    @Html.DisplayFor(model => model.Post.Title)
+</h1>
+
+<div>
+
+    <hr />
+    <div class="m-2">
         <dl class="row">
-           
+
             <dd class="col-sm-10">
-                <img src="/uploads/profiles/@Model.Profile.Avatara" height="40" class="rounded-circle" />
-                <a asp-controller="Profile" asp-action="ProfileView" asp-route-id="@Model.Profile.AppUserId" >
+                <img src="/uploads/profiles/100x100.@Model.Profile.Avatara" height="40" class="rounded-circle" />
+                <a asp-controller="Profile" asp-action="ProfileView" asp-route-id="@Model.Profile.AppUserId">
                     @Html.DisplayFor(model => model.Profile.Name)
                 </a>
             </dd>
-           
+
             <dd class="col-sm-10">
                 Date: @Html.DisplayFor(model => model.Post.Date)
             </dd>
-           
+
 
         </dl>
-        <p>
-            <img src="/uploads/@Model.Post.Image" alt="@Model.Post.Title" />
-        </p>
-        <h3><b>Description:</b></h3>
-        <p>
-            @Model.Post.Description
-        </p>
-        @if (Model.Owener == false)
-        {
-        <button id="like" type="button" class="btn btn-lg @(ViewBag.Color ? "btn-danger" : "btn-success") my-2" onclick="jsAddLike('@Model.Post.Id')">❤ Like</button>
-        }
     </div>
+    <p>
+        <img src="/uploads/@Model.Post.Image" alt="@Model.Post.Title" />
+    </p>
+    <h3><b>Description:</b></h3>
+    <p>
+        @Model.Post.Description
+    </p>
+    @if (Model.Owener == false)
+    {
+        <button id="like" type="button" class="btn btn-lg @(ViewBag.Color ? "btn-danger" : "btn-success") my-2" onclick="jsAddLike('@Model.Post.Id')">❤ Like</button>
+    }
+</div>
+<!-- ==============================================
+        Comments
+        =============================================== -->
+<div class="mt-4">
+    <h2>Comments</h2>
+    <hr />
+</div>
+
+<div class="form-group">
+    <label for="comment">Comment:</label>
+    <textarea class="form-control" rows="5" id="comment"></textarea>
+</div>
+<button id="AddComment" type="button" class="btn btn-info" onclick="jsAddComment('@Model.CurrUserProfile')"> Send </button>
+
+<ul class="media-list">
+    <div id="text">
+    </div>
+</ul>
+
 <div>
     @*<a asp-controller="Profile" asp-action="UserProfile" asp-route-id="2" class="btn btn-lg btn-info my-2">Back</a>*@
 </div>
 
 <script src="~/js/site.js"></script>
+<script src="~/js/comments.js"></script>

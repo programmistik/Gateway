@@ -81,8 +81,15 @@ namespace MyIdentityService.Controllers
         {
             IEnumerable<Post> posts = await GetPostsAsync();
             var profile = _profileService.Get(User.Identity.Name);
+            var friends = new List<Profile>();
 
-            return View(new ProfileAndPosts { Profile = profile, Posts = posts, ActivePageNumber = id });
+            foreach (var item in profile.Friends)
+            {
+                var friendProfile = _profileService.Get(item);
+                friends.Add(friendProfile);
+            }
+
+            return View(new ProfileAndPosts { Profile = profile, Posts = posts, Friends = friends, ActivePageNumber = id });
         }
 
         public IActionResult Settings(string id)
@@ -127,8 +134,12 @@ namespace MyIdentityService.Controllers
             var model = new ProfileAndPosts { Profile = profile, Posts = posts };
             var myProfile = _profileService.Get(User.Identity.Name);
 
+            ViewBag.ShowButton = true;
             if (id == User.Identity.Name)
+            {
                 model.ActivePageNumber = 0;
+                ViewBag.ShowButton = false;
+            }
 
             else if (myProfile.Friends?.Where(x => x == id).Count() > 0)
                 model.ActivePageNumber = 2;

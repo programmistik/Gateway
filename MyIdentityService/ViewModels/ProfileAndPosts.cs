@@ -10,6 +10,7 @@ namespace MyIdentityService.ViewModels
     {
         public Profile Profile { get; set; }
         public IEnumerable<Post> Posts { get; set; }
+        public IEnumerable<Profile> Friends { get; set; }
         public int ActivePageNumber { get; set; }
     }
 }

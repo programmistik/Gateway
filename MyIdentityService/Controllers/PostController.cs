@@ -107,13 +107,20 @@ namespace MyIdentityService
         {
             var vm = new PostViewModel();
             var currPost = await GetPostByIdAsync(id);
-            vm.Post = currPost;
-            if (currPost.Profile.AppUserId == User.Identity.Name)
-                vm.Owener = true;
-            else
-                vm.Owener = false;
-
             vm.Profile = _profileService.Get(currPost.Profile.AppUserId);
+            vm.Post = currPost;
+
+            if (currPost.Profile.AppUserId == User.Identity.Name)
+            {
+                vm.Owener = true;
+                vm.CurrUserProfile = JsonConvert.SerializeObject(vm.Profile);
+            }
+            else
+            {
+                vm.Owener = false;
+                vm.CurrUserProfile = JsonConvert.SerializeObject(_profileService.Get(User.Identity.Name));
+            }
+           
 
             if (currPost.LikesProfileId.Contains(User.Identity.Name))
                 ViewBag.Color = true;
@@ -148,7 +155,7 @@ namespace MyIdentityService
                 //Console.WriteLine(tokenResponse.Error);
                 //return;
             }
-            Console.WriteLine(tokenResponse.Json);
+           // Console.WriteLine(tokenResponse.Json);
 
             //CALL API
             client.SetBearerToken(tokenResponse.AccessToken);

@@ -19,7 +19,7 @@ namespace MyIdentityService.Controllers
         public async Task<IActionResult> Index(int spage = 1)
         {
             var page = spage;
-            int pageSize = 3;   // количество элементов на странице
+            int pageSize = 4;   // количество элементов на странице
 
             //CONNECT
             var client = new HttpClient();
@@ -60,10 +60,11 @@ namespace MyIdentityService.Controllers
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var dummyItems = JsonConvert.DeserializeObject<List<Post>>(content);
+                var sortedItems = dummyItems.OrderByDescending(x => x.LikesProfileId.Count()).ToList();
                 //IQueryable<Post> source = db.Users.Include(x => x.Company);
-                var count = dummyItems.Count();
+                var count = sortedItems.Count();
 
-                var items = dummyItems.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                var items = sortedItems.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
                 PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
                 IndexViewModel viewModel = new IndexViewModel
