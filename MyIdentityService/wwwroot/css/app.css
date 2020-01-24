@@ -3815,7 +3815,6 @@ table {
    ========================================================================== */
 /* line 46, ../scss/_base.scss */
 html, body {
-    overflow-x: hidden;
     text-align: left;
     -webkit-font-smoothing: antialiased;
     /* Fix for webkit rendering */

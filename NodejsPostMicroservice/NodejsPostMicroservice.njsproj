@@ -37,6 +37,9 @@
     </Content>
     <Content Include="routes\profile.js" />
     <Content Include="routes\search.js" />
+    <Content Include="routes\views.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />

@@ -1,0 +1,56 @@
+﻿
+@model List<PostViewModel>
+
+@{
+	ViewData["Title"] = "News";
+}
+
+<section class="posts-2">
+	<div class="container">
+		<div class="row">
+
+
+			@foreach (var item in Model)
+            {
+
+
+			<div class="col-sm-4">
+				<div class="tr-section">
+					<div class="tr-post">
+						<div class="entry-header">
+							<div class="entry-thumbnail">
+								<a href="#"><img class="img-fluid" src="/uploads/min.@item.Post.Image" alt="Image"></a>
+							</div><!-- /entry-thumbnail -->
+						</div><!-- /entry-header -->
+						<div class="post-content">
+							<div class="author-post">
+								<a href="#"><img class="img-fluid rounded-circle" src="/uploads/profiles/100x100.@item.Profile.Avatara" alt="Image"></a>
+							</div><!-- /author -->
+							<div class="entry-meta">
+								<ul>
+									<li><a href="#">@item.Profile.Name</a></li>
+									<li>@item.Post.Date</li>
+								</ul>
+							</div><!-- /.entry-meta -->
+							<h2 class="entry-title"><a href="#" class="entry-title">@item.Post.Title</a></h2>
+
+							<div class="read-more">
+								<div class="feed pull-left">
+									<ul>
+										<li><i class="fas fa-heart"></i>@item.Post.LikesProfileId.Count()</li>&nbsp;
+										<li><i class="fas fa-eye"></i>@item.Post.ViewsProfileId.Count()</li>
+									</ul>
+								</div><!-- /feed -->
+								<div class="continue-reading pull-right">
+									<a href="#">Show more <i class="fas fa-angle-right"></i></a>
+								</div><!-- /continue-reading -->
+							</div><!-- /read-more -->
+						</div><!-- /.post-content -->
+					</div><!-- /.tr-post -->
+				</div><!-- /.tr-post -->
+			</div><!-- /col-sm-4 -->
+            }
+		</div>
+	</div>
+</section>
+

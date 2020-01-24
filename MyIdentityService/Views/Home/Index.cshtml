@@ -1,8 +1,9 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+@using MyIdentityService.Areas.Identity.Data
+@inject SignInManager<MyIdentityServiceUser> SignInManager
+@inject UserManager<MyIdentityServiceUser> UserManager
 
 @model IndexViewModel
-
-
 @*@{
         ViewData["Title"] = "Home Page";
     }*@
@@ -10,56 +11,90 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
 
-    @*<form class=" " asp-controller="Home" asp-action="Search">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search" name="search">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit">
-                    <i class="glyphicon glyphicon-search"></i>
-                </button>
+
+        <table class="table table-striped m-md-3">
+            @foreach (var item in Model.Posts)
+            {
+                <div class="col-12 col-md-3">
+                    <div class="card">
+                        <img src="/uploads/min.@item.Image" class="card-img-top rounded-lg" alt="@item.Title" height="250" style="object-fit: cover">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Title</h5>
+                            <p class="card-text"><small class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</small></p>
+                            <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                            @*<a asp-action="ProfileView" asp-controller="Profile" asp-route-id="@item.Id" class="btn btn-primary">Details</a>*@
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </table>
+
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <a asp-controller="Home" asp-action="Index" asp-route-spage=@(Model.PageViewModel.PageNumber - 1)
+               class="btn btn-outline-secondary">
+
+                &#8678 Back
+            </a>
+        }
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <a asp-controller="Home" asp-action="Index"
+               asp-route-spage=@(Model.PageViewModel.PageNumber + 1)
+               class="btn btn-outline-secondary my-2">
+                Forward &#8680
+
+            </a>
+        }
+
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>
+}
+else
+{
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="/uploads/@Model.Posts.First().Image" alt="Первый слайд">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Easy upload your images</h3>
+                    <p>Upload your images from any device</p>
+                </div>
             </div>
-        </div>
-    </form>*@
-
-  
-<table class="table table-striped m-md-3">
-    @foreach (var item in Model.Posts)
-    {
-        <div class="col-12 col-md-3">
-            <div class="card">
-                <img src="/uploads/@item.Image" class="card-img-top rounded-lg" alt="@item.Title" height="250" style="object-fit: cover">
-                <div class="card-body">
-                    <h5 class="card-title">@item.Title</h5>
-                    <p class="card-text"><small class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</small></p>
-                    <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                    @*<a asp-action="ProfileView" asp-controller="Profile" asp-route-id="@item.Id" class="btn btn-primary">Details</a>*@
+            <div class="carousel-item">
+                <img class="d-block w-100" src="/uploads/@Model.Posts.Skip(1).First().Image" alt="Второй слайд">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Be in contact with friends</h3>
+                    <p>See what's new from your friends</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="/uploads/@Model.Posts.Skip(2).First().Image" alt="Третий слайд">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Comment everything</h3>
+                    <p>Wright comments to every post you want</p>
                 </div>
             </div>
         </div>
-      
-    }
-</table>
-
-    @if (Model.PageViewModel.HasPreviousPage)
-    {
-<a asp-controller="Home" asp-action="Index" asp-route-spage=@(Model.PageViewModel.PageNumber - 1)
-   class="btn btn-outline-secondary">
-    
-    &#8678 Back
-</a>
-    }
-    @if (Model.PageViewModel.HasNextPage)
-    {
-<a asp-controller="Home" asp-action="Index"
-   asp-route-spage=@(Model.PageViewModel.PageNumber + 1)
-   class="btn btn-outline-secondary my-2">
-    Forward &#8680
-    
-</a>
-    }
-
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+}
+<a id="back-to-top" href="#" class="btn-light btn-lg back-to-top" role="button"  data-toggle="tooltip" data-placement="left"><i class="fas fa-chevron-up"></i></a>

@@ -64,9 +64,9 @@ namespace MyIdentityService
             client.SetBearerToken(tokenResponse.AccessToken);
             HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
 
-            
 
-            var response = await client.PostAsync("http://localhost:5000/post", cont); 
+
+            var response = await client.PostAsync("http://localhost:5000/post", cont);
             if (!response.IsSuccessStatusCode)
             {
                 //Console.WriteLine(response.StatusCode);
@@ -119,13 +119,74 @@ namespace MyIdentityService
             {
                 vm.Owener = false;
                 vm.CurrUserProfile = JsonConvert.SerializeObject(_profileService.Get(User.Identity.Name));
+
+                // add view if needed
+                var viewed = currPost.ViewsProfileId.Where(x => x.Equals(User.Identity.Name)).FirstOrDefault();
+                if (viewed == null)
+                {
+                    currPost.ViewsProfileId.Add(User.Identity.Name);
+
+                    //CONNECT
+                    var client = new HttpClient();
+                    var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
+                    if (disco.IsError)
+                    {
+                        // Console.WriteLine(disco.Error);
+                        //return;
+                    }
+
+                    //GET TOKEN
+                    var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+                    {
+                        Address = disco.TokenEndpoint,
+
+                        ClientId = "client",
+                        ClientSecret = "secret",
+                        Scope = "Post"
+                    });
+                    if (tokenResponse.IsError)
+                    {
+                        // Console.WriteLine(tokenResponse.Error);
+                        //return;
+                    }
+                    //Console.WriteLine(tokenResponse.Json);
+
+                    //CALL API
+                    var obj = new ReqStrViews
+                    {
+                        Id = id,
+                        UserId = User.Identity.Name
+                    };
+
+
+                    var js = JsonConvert.SerializeObject(obj);
+
+
+                    client.SetBearerToken(tokenResponse.AccessToken);
+                    HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
+
+
+
+                    var response = await client.PutAsync("http://localhost:5000/views", cont);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        //Console.WriteLine(response.StatusCode);
+                    }
+                    else
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+                        //Console.WriteLine(content);
+                    }
+                }
             }
-           
+
 
             if (currPost.LikesProfileId.Contains(User.Identity.Name))
                 ViewBag.Color = true;
             else
                 ViewBag.Color = false;
+
+
 
             return View(vm);
         }
@@ -155,14 +216,14 @@ namespace MyIdentityService
                 //Console.WriteLine(tokenResponse.Error);
                 //return;
             }
-           // Console.WriteLine(tokenResponse.Json);
+            // Console.WriteLine(tokenResponse.Json);
 
             //CALL API
             client.SetBearerToken(tokenResponse.AccessToken);
 
             //var client2 = new HttpClient();
             //var response = await client.GetAsync("http://localhost:3300/" + id);
-            var response = await client.GetAsync("http://localhost:5000/post/"+id);
+            var response = await client.GetAsync("http://localhost:5000/post/" + id);
             if (!response.IsSuccessStatusCode)
             {
                 //  Console.WriteLine(response.StatusCode);
@@ -216,7 +277,7 @@ namespace MyIdentityService
         public async Task ChangePostAsync(ReqStr obj)
         {
 
-           // var js = JsonConvert.SerializeObject(editPost);
+            // var js = JsonConvert.SerializeObject(editPost);
 
             //CONNECT
             var client = new HttpClient();
@@ -245,7 +306,7 @@ namespace MyIdentityService
 
             //CALL API
 
-           
+
 
             var js = JsonConvert.SerializeObject(obj);
 
@@ -298,16 +359,16 @@ namespace MyIdentityService
             //Console.WriteLine(tokenResponse.Json);
 
             //CALL API
-           
-         
-            client.SetBearerToken(tokenResponse.AccessToken);
-            
 
-            var response = await client.DeleteAsync("http://localhost:5000/posts/"+id);
+
+            client.SetBearerToken(tokenResponse.AccessToken);
+
+
+            var response = await client.DeleteAsync("http://localhost:5000/posts/" + id);
             if (!response.IsSuccessStatusCode)
             {
                 //Console.WriteLine(response.StatusCode);
-              // return RedirectToAction("UserProfile", "Profile", new { id = 2 });
+                // return RedirectToAction("UserProfile", "Profile", new { id = 2 });
             }
             else
             {
@@ -317,6 +378,65 @@ namespace MyIdentityService
 
 
         }
+
+        public async Task<IActionResult> News()
+        {
+            //CONNECT
+            var client = new HttpClient();
+            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
+            if (disco.IsError)
+            {
+                //Console.WriteLine(disco.Error);
+                //return;
+            }
+
+            //GET TOKEN
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+
+                ClientId = "client",
+                ClientSecret = "secret",
+                Scope = "Post"
+            });
+            if (tokenResponse.IsError)
+            {
+                //Console.WriteLine(tokenResponse.Error);
+                //return;
+            }
+
+
+            //CALL API
+            client.SetBearerToken(tokenResponse.AccessToken);
+            List<PostViewModel> Result = new List<PostViewModel>();
+            var posts = new List<Post>();
+
+            var response = await client.GetAsync("http://localhost:5000/post/");
+            if (!response.IsSuccessStatusCode)
+            {
+                //  Console.WriteLine(response.StatusCode);
+               // Result = new List<PostViewModel>();
+            }
+            else
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                posts = JsonConvert.DeserializeObject<List<Post>>(content);
+
+                if(posts != null)
+                foreach (var item in posts)
+                {
+                    var prof = _profileService.Get(item.ProfileId);
+                    var newItm = new PostViewModel
+                    {
+                        Post = item,
+                        Profile = prof
+                    };
+                    Result.Add(newItm);
+
+                }
+            }
+            return View(Result);
+        }
     }
 
     public class ReqStr
@@ -324,6 +444,13 @@ namespace MyIdentityService
         public string Id { get; set; }
         public string ArrayName { get; set; }
         public string Method { get; set; }
+        public string UserId { get; set; }
+    }
+
+    public class ReqStrViews
+    {
+        public string Id { get; set; } // postId
+        
         public string UserId { get; set; }
     }
 }

@@ -31,7 +31,9 @@ upload.addEventListener('change', (e) => {
                 save.classList.remove('hide');
                 options.classList.remove('hide');
                 // init cropper
-                cropper = new Cropper(img);
+                cropper = new Cropper(img, {
+                    aspectRatio: 1 / 1
+                });
             }
         };
         reader.readAsDataURL(e.target.files[0]);
