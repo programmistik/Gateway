@@ -8,6 +8,7 @@ using IdentityModel.Client;
 using Microsoft.AspNetCore.Mvc;
 using MyIdentityService.Helpers;
 using MyIdentityService.Models;
+using MyIdentityService.Services;
 using MyIdentityService.ViewModels;
 using Newtonsoft.Json;
 
@@ -16,10 +17,17 @@ namespace MyIdentityService.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ProfileService _profileService;
+
+        public HomeController(ProfileService profileService)
+        {
+            _profileService = profileService;
+        }
+
         public async Task<IActionResult> Index(int spage = 1)
         {
             var page = spage;
-            int pageSize = 4;   // количество элементов на странице
+            int pageSize = 3;   // количество элементов на странице
 
             //CONNECT
             var client = new HttpClient();
@@ -67,10 +75,24 @@ namespace MyIdentityService.Controllers
                 var items = sortedItems.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
                 PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+                List<PostViewModel> Result = new List<PostViewModel>();
+
+                if (items != null)
+                    foreach (var item in items)
+                    {
+                        var prof = _profileService.Get(item.ProfileId);
+                        var newItm = new PostViewModel
+                        {
+                            Post = item,
+                            Profile = prof
+                        };
+                        Result.Add(newItm);
+
+                    }
                 IndexViewModel viewModel = new IndexViewModel
                 {
                     PageViewModel = pageViewModel,
-                    Posts = items
+                    Posts = Result
                 };
                 return View(viewModel);
             }

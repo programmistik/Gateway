@@ -30,6 +30,10 @@ function jsAddComment(CurrUserProfile) {
                         </div>
                     </div>
 </li>
+<ul class="media-list">
+    <div id="text">
+    </div>
+</ul>
 `
     res.insertAdjacentHTML("beforebegin", temp);
     
@@ -43,7 +47,7 @@ function jsReplay() {
     replayBtn.addClass('hide');
 
     let temp = ` 
-        <div class="form-group">
+        <div class="form-group mt-3">
             <label for="comment">Comment:</label>
             <textarea class="form-control" rows="5" id="comment"></textarea>
         </div>

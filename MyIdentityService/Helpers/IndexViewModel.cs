@@ -1,4 +1,5 @@
 ﻿using MyIdentityService.Models;
+using MyIdentityService.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace MyIdentityService.Helpers
 {
     public class IndexViewModel
     {
-        public IEnumerable<Post> Posts { get; set; }
+        public IEnumerable<PostViewModel> Posts { get; set; }
         public PageViewModel PageViewModel { get; set; }
     }
 }

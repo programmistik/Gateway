@@ -107,3 +107,7 @@ img {
     font-size: 18px; /* Increase font size */
 }
 
+#logout{
+    padding: 12px !important;
+}
+

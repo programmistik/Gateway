@@ -15,46 +15,95 @@
 {
     <div class="text-center">
         <h1 class="display-4">Welcome</h1>
+    <section class="posts-2">
+        <div class="container">
+            @*<div class="text-center">
+                <h1 class="display-4">Welcome</h1>
+            </div>*@
+            <div class="row">
 
+                @*<table class="table table-striped m-md-3">*@
+                @foreach (var item in Model.Posts)
+                {
+                    <div class="col-sm-4">
+                        <div class="tr-section">
+                            <div class="tr-post">
+                                <div class="entry-header">
+                                    <div class="entry-thumbnail">
+                                        <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Post.Id">
+                                        <img class="img-fluid" src="/uploads/min.@item.Post.Image" alt="Image" style=" image-orientation:from-image; object-fit: cover"></a>
+                                    </div><!-- /entry-thumbnail -->
+                                </div><!-- /entry-header -->
+                                <div class="post-content">
+                                    <div class="author-post">
+                                        <a asp-action="ProfileView" asp-controller="Profile" asp-route-id="@item.Profile.AppUserId">
+                                        <img class="img-fluid rounded-circle" src="/uploads/profiles/100x100.@item.Profile.Avatara" alt="Image"></a>
+                                    </div><!-- /author -->
+                                    <div class="entry-meta">
+                                        <ul>
+                                            <li><a asp-action="ProfileView" asp-controller="Profile" asp-route-id="@item.Profile.AppUserId">@item.Profile.Name</a></li>
+                                            <li>@item.Post.Date</li>
+                                        </ul>
+                                    </div><!-- /.entry-meta -->
+                                    <h2 class="entry-title"><a asp-action="Post" asp-controller="Post" asp-route-id="@item.Post.Id" class="entry-title">@item.Post.Title</a></h2>
 
-        <table class="table table-striped m-md-3">
-            @foreach (var item in Model.Posts)
-            {
-                <div class="col-12 col-md-3">
-                    <div class="card">
-                        <img src="/uploads/min.@item.Image" class="card-img-top rounded-lg" alt="@item.Title" height="250" style="object-fit: cover">
-                        <div class="card-body">
-                            <h5 class="card-title">@item.Title</h5>
-                            <p class="card-text"><small class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</small></p>
-                            <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                            @*<a asp-action="ProfileView" asp-controller="Profile" asp-route-id="@item.Id" class="btn btn-primary">Details</a>*@
-                        </div>
-                    </div>
-                </div>
+                                    <div class="read-more">
+                                        <div class="feed pull-left">
+                                            <ul>
+                                                <li><i class="fas fa-heart"></i>@item.Post.LikesProfileId.Count()</li>&nbsp;
+                                                <li><i class="fas fa-eye"></i>@item.Post.ViewsProfileId.Count()</li>
+                                            </ul>
+                                        </div><!-- /feed -->
+                                        <div class="continue-reading pull-right">
+                                            <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Post.Id">Show more <i class="fas fa-angle-right"></i></a>
+                                        </div><!-- /continue-reading -->
+                                    </div><!-- /read-more -->
+                                </div><!-- /.post-content -->
+                            </div><!-- /.tr-post -->
+                        </div><!-- /.tr-post -->
+                    </div><!-- /col-sm-4 -->
 
-            }
-        </table>
+                    ///
+                    @*<div class="col-12 col-md-3">
+                            <div class="card">
+                                <img src="/uploads/min.@item.Image" class="card-img-top rounded-lg" alt="@item.Title" height="250" style="object-fit: cover">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Title</h5>
+                                    <p class="card-text">
 
-        @if (Model.PageViewModel.HasPreviousPage)
-        {
-            <a asp-controller="Home" asp-action="Index" asp-route-spage=@(Model.PageViewModel.PageNumber - 1)
-               class="btn btn-outline-secondary">
+                                        <small class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</small>
+                                    </p>
+                                    <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                                    <a asp-action="ProfileView" asp-controller="Profile" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                                </div>
+                            </div>
+                        </div>*@
 
-                &#8678 Back
-            </a>
-        }
-        @if (Model.PageViewModel.HasNextPage)
-        {
-            <a asp-controller="Home" asp-action="Index"
-               asp-route-spage=@(Model.PageViewModel.PageNumber + 1)
-               class="btn btn-outline-secondary my-2">
-                Forward &#8680
+                }
+            </div>
+        </div>
+    </section>
 
-            </a>
-        }
+    @if (Model.PageViewModel.HasPreviousPage)
+    {
+        <a asp-controller="Home" asp-action="Index" asp-route-spage=@(Model.PageViewModel.PageNumber - 1)
+           class="btn btn-info" style="width:100px;">
 
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    </div>
+            &#8678 Back
+        </a>
+    }
+    @if (Model.PageViewModel.HasNextPage)
+    {
+        <a asp-controller="Home" asp-action="Index"
+           asp-route-spage=@(Model.PageViewModel.PageNumber + 1)
+           class="btn btn-info my-2" style="width:100px;">
+            Forward &#8680
+
+        </a>
+    }
+
+   
+</div>
 }
 else
 {
@@ -66,21 +115,21 @@ else
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="/uploads/@Model.Posts.First().Image" alt="Первый слайд">
+                <img class="d-block w-100" src="/uploads/@Model.Posts.First().Post.Image" alt="Первый слайд">
                 <div class="carousel-caption d-none d-md-block">
                     <h3>Easy upload your images</h3>
                     <p>Upload your images from any device</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="/uploads/@Model.Posts.Skip(1).First().Image" alt="Второй слайд">
+                <img class="d-block w-100" src="/uploads/@Model.Posts.Skip(1).First().Post.Image" alt="Второй слайд">
                 <div class="carousel-caption d-none d-md-block">
                     <h3>Be in contact with friends</h3>
                     <p>See what's new from your friends</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="/uploads/@Model.Posts.Skip(2).First().Image" alt="Третий слайд">
+                <img class="d-block w-100" src="/uploads/@Model.Posts.Skip(2).First().Post.Image" alt="Третий слайд">
                 <div class="carousel-caption d-none d-md-block">
                     <h3>Comment everything</h3>
                     <p>Wright comments to every post you want</p>
@@ -96,5 +145,5 @@ else
             <span class="sr-only">Next</span>
         </a>
     </div>
+        
 }
-<a id="back-to-top" href="#" class="btn-light btn-lg back-to-top" role="button"  data-toggle="tooltip" data-placement="left"><i class="fas fa-chevron-up"></i></a>
