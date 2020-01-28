@@ -5402,7 +5402,7 @@ a {
 
 /* line 43, ../scss/_footer.scss */
 #scrollup {
-    background: url("../img/arrow.png") no-repeat 0px 0px;
+    background:  no-repeat 0px 0px;
     display: none;
     text-decoration: none;
     position: fixed;

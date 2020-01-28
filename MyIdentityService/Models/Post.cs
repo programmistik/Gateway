@@ -18,10 +18,13 @@ namespace MyIdentityService.Models
 
         public string Image { get; set; }
         public string Title { get; set; }
+        public string Location { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
 
         public List<string> ViewsProfileId { get; set; }
         public List<string> LikesProfileId { get; set; }
+
+        public List<Comment> Comments { get; set; }
     }
 }

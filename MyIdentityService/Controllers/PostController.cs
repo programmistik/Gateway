@@ -92,10 +92,12 @@ namespace MyIdentityService
 
             newPost.Id = Guid.NewGuid().ToString();
             newPost.ProfileId = profile.AppUserId;
+            
             newPost.Date = DateTime.Now;
             newPost.Profile = profile;
             newPost.LikesProfileId = new List<string>();
             newPost.ViewsProfileId = new List<string>();
+            newPost.Comments = new List<Comment>();
             newPost.Image = await _imageUploader.Upload(Image);
 
             await AddNewPostAsync(newPost);
@@ -103,10 +105,24 @@ namespace MyIdentityService
             return RedirectToAction("UserProfile", "Profile", new { id = 2 });
         }
 
+        public void fillProfiles(List<Comment> comments)
+        {
+            foreach (var item in comments)
+            {
+                item.Profile = _profileService.Get(item.ProfileId);
+                if (item.Comments.Count() > 0)
+                    fillProfiles(item.Comments);
+            }
+
+        }
+
         public async Task<IActionResult> Post(string id)
         {
             var vm = new PostViewModel();
             var currPost = await GetPostByIdAsync(id);
+            if(currPost.Comments != null)
+                fillProfiles(currPost.Comments);
+
             vm.Profile = _profileService.Get(currPost.Profile.AppUserId);
             vm.Post = currPost;
 
@@ -152,14 +168,18 @@ namespace MyIdentityService
                     //Console.WriteLine(tokenResponse.Json);
 
                     //CALL API
-                    var obj = new ReqStrViews
+                    //var obj = new ReqStrViews
+                    //{
+                    //    Id = id,
+                    //    UserId = User.Identity.Name
+                    //};
+
+
+                    var js = JsonConvert.SerializeObject(new 
                     {
                         Id = id,
                         UserId = User.Identity.Name
-                    };
-
-
-                    var js = JsonConvert.SerializeObject(obj);
+                    });
 
 
                     client.SetBearerToken(tokenResponse.AccessToken);
@@ -221,8 +241,6 @@ namespace MyIdentityService
             //CALL API
             client.SetBearerToken(tokenResponse.AccessToken);
 
-            //var client2 = new HttpClient();
-            //var response = await client.GetAsync("http://localhost:3300/" + id);
             var response = await client.GetAsync("http://localhost:5000/post/" + id);
             if (!response.IsSuccessStatusCode)
             {
@@ -381,59 +399,75 @@ namespace MyIdentityService
 
         public async Task<IActionResult> News()
         {
-            //CONNECT
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-            if (disco.IsError)
-            {
-                //Console.WriteLine(disco.Error);
-                //return;
-            }
-
-            //GET TOKEN
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "Post"
-            });
-            if (tokenResponse.IsError)
-            {
-                //Console.WriteLine(tokenResponse.Error);
-                //return;
-            }
-
-
-            //CALL API
-            client.SetBearerToken(tokenResponse.AccessToken);
             List<PostViewModel> Result = new List<PostViewModel>();
-            var posts = new List<Post>();
 
-            var response = await client.GetAsync("http://localhost:5000/post/");
-            if (!response.IsSuccessStatusCode)
-            {
-                //  Console.WriteLine(response.StatusCode);
-               // Result = new List<PostViewModel>();
-            }
-            else
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                posts = JsonConvert.DeserializeObject<List<Post>>(content);
+            var myProfile = _profileService.Get(User.Identity.Name);
+            var myId = User.Identity.Name;
 
-                if(posts != null)
-                foreach (var item in posts)
+            //foreach (var itm in myProfile.Friends)
+            //{
+            //    var id = itm;
+
+
+                //CONNECT
+                var client = new HttpClient();
+                var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
+                if (disco.IsError)
                 {
-                    var prof = _profileService.Get(item.ProfileId);
-                    var newItm = new PostViewModel
-                    {
-                        Post = item,
-                        Profile = prof
-                    };
-                    Result.Add(newItm);
-
+                    //Console.WriteLine(disco.Error);
+                    //return;
                 }
+
+                //GET TOKEN
+                var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+                {
+                    Address = disco.TokenEndpoint,
+
+                    ClientId = "client",
+                    ClientSecret = "secret",
+                    Scope = "Post"
+                });
+                if (tokenResponse.IsError)
+                {
+                    //Console.WriteLine(tokenResponse.Error);
+                    //return;
+                }
+
+
+                //CALL API
+                client.SetBearerToken(tokenResponse.AccessToken);
+                
+                var posts = new List<Post>();
+
+            //var response = await client.GetAsync("http://localhost:5000/views/" + id + "/"+myId);
+            var response = await client.GetAsync("http://localhost:5000/views/" + "smthg" + "/" + myId);
+            if (!response.IsSuccessStatusCode)
+                {
+                    //  Console.WriteLine(response.StatusCode);
+                    // Result = new List<PostViewModel>();
+                }
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    posts = JsonConvert.DeserializeObject<List<Post>>(content);
+
+                    if (posts != null)
+                        foreach (var item in posts)
+                        {
+                            if (item.ProfileId != myId)
+                            {
+                                var prof = _profileService.Get(item.ProfileId);
+                                var newItm = new PostViewModel
+                                {
+                                    Post = item,
+                                    Profile = prof
+                                };
+                                Result.Add(newItm);
+                            }
+
+                        }
+               // }
+                
             }
             return View(Result);
         }

@@ -33,10 +33,15 @@
     <p>
         <img src="/uploads/@Model.Post.Image" alt="@Model.Post.Title" />
     </p>
-    <h3><b>Description:</b></h3>
-    <p>
-        @Model.Post.Description
-    </p>
+
+    <div class="mt-3 ">
+        <i class="fas fa-map-marker-alt">&nbsp;@Html.DisplayFor(model => model.Post.Location)</i>   
+    </div>
+    <div  class="mt-3">
+        <h3><b>Description:</b></h3>
+        @Html.Raw(Model.Post.Description)
+    </div>
+
     @if (Model.Owener == false)
     {
         <button id="like" type="button" class="btn btn-lg @(ViewBag.Color ? "btn-danger" : "btn-success") my-2" onclick="jsAddLike('@Model.Post.Id')">❤ Like</button>
@@ -61,9 +66,70 @@
     </div>
 </ul>
 
+@*<button type="button" class="btn btn-info" onclick="jsRenderAll('@Model.Post.Comments')"> Render </button>*@
+
+@foreach (var item in Model.Post.Comments)
+{
+    <li class="media mt-2">
+        <div class="media-left">
+
+            <img class="media-object img-circle" src="/uploads/profiles/100x100.@item.Profile.Avatara" alt="...">
+
+        </div>
+        <div class="media-body">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="author"><b>@item.Profile.Name</b></div>
+                    <div class="metadata">
+                        <span class="date">@item.CommentDate</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="media-text text-justify">@item.CommentText</div>
+                    <div class="pull-right"><a class="btn btn-info" id=@item.CommentId onclick="jsReplay('@Model.CurrUserProfile')">Replay</a></div>
+                    <div id="replayText">
+                    </div>
+                    @if (@item.Comments.Count() > 0)
+                    {
+
+                    }
+                </div>
+            </div>
+        </div>
+
+    </li>
+    <ul class="media-list">
+        <div id="text">
+        </div>
+    </ul>
+
+
+}
+
+<template>
+    <div class="tree-menu">
+        <div>{{ label }}</div>
+        <tree-menu v-for="node in @Model.Post.Comments"
+                   :nodes="node.Profile.Name"
+                   :label="node.CommentText"
+                   :depth="depth + 1">
+        </tree-menu>
+    </div>
+</template>
+<script>
+    export default {
+        props: ['label', 'nodes', 'depth'],
+        name: 'tree-menu',
+        computed: {
+            indent() {
+                return { transform: `translate(${this.depth * 50}px)` }
+            }
+        }
+    }
+</script>
+
 <div>
     @*<a asp-controller="Profile" asp-action="UserProfile" asp-route-id="2" class="btn btn-lg btn-info my-2">Back</a>*@
 </div>
-<a id="back-to-top" href="#" class="btn-light btn-lg back-to-top" role="button" data-toggle="tooltip" data-placement="left"><i class="fas fa-chevron-up"></i></a>
 <script src="~/js/site.js"></script>
 <script src="~/js/comments.js"></script>

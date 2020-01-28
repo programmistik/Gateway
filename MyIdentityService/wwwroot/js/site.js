@@ -20,7 +20,7 @@ $(document).ready(function () {
         return false;
     });
 
-    $('#back-to-top').tooltip('show');
+    //$('#back-to-top').tooltip('show');
 
 });
 
@@ -89,6 +89,47 @@ function jsAddFriend(id) {
         }
     });
 }
+
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+       
+            var image = input.files[0]; // FileList object
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                var reader = new FileReader();
+                // Closure to capture the file information.
+                reader.addEventListener("load", function (e) {
+                    const imageData = e.target.result;
+                    window.loadImage(imageData, function (img) {
+                        if (img.type === "error") {
+                            console.log("couldn't load image:", img);
+                        } else {
+                            window.EXIF.getData(img, function () {
+                                console.log("done!");
+                                var orientation = window.EXIF.getTag(this, "Orientation");
+                                var canvas = window.loadImage.scale(img, { orientation: orientation || 0, canvas: true });
+                                document.getElementById("container2").appendChild(canvas);
+                                canvas.style.marginLeft = "10px";
+
+                                if (orientation == 1)
+                                    canvas.style.width = "500px";
+                                else
+                                    canvas.style.height = "500px";
+                            });
+                        }
+                    });
+                });
+                reader.readAsDataURL(image);
+            } else {
+                console.log('The File APIs are not fully supported in this browser.');
+            }
+       
+    }
+}
+$("#inputGroupFile01").change(function () {
+    $('canvas:nth-of-type(1)').remove();
+    readURL(this);
+});
 
 
 

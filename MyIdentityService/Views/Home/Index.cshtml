@@ -4,26 +4,20 @@
 @inject UserManager<MyIdentityServiceUser> UserManager
 
 @model IndexViewModel
-@*@{
-        ViewData["Title"] = "Home Page";
-    }*@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
+    <div>
+        <h1 class="display-4 text-center">Welcome</h1>
     <section class="posts-2">
         <div class="container">
-            @*<div class="text-center">
-                <h1 class="display-4">Welcome</h1>
-            </div>*@
+           
             <div class="row">
 
-                @*<table class="table table-striped m-md-3">*@
-                @foreach (var item in Model.Posts)
+               
+               @foreach (var item in Model.Posts)
                 {
                     <div class="col-sm-4">
                         <div class="tr-section">
@@ -45,7 +39,9 @@
                                             <li>@item.Post.Date</li>
                                         </ul>
                                     </div><!-- /.entry-meta -->
-                                    <h2 class="entry-title"><a asp-action="Post" asp-controller="Post" asp-route-id="@item.Post.Id" class="entry-title">@item.Post.Title</a></h2>
+                                    <h2 class="entry-title">
+                                    <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Post.Id" class="entry-title">@item.Post.Title</a>
+                                    </h2>
 
                                     <div class="read-more">
                                         <div class="feed pull-left">
@@ -63,46 +59,32 @@
                         </div><!-- /.tr-post -->
                     </div><!-- /col-sm-4 -->
 
-                    ///
-                    @*<div class="col-12 col-md-3">
-                            <div class="card">
-                                <img src="/uploads/min.@item.Image" class="card-img-top rounded-lg" alt="@item.Title" height="250" style="object-fit: cover">
-                                <div class="card-body">
-                                    <h5 class="card-title">@item.Title</h5>
-                                    <p class="card-text">
-
-                                        <small class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</small>
-                                    </p>
-                                    <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                                    <a asp-action="ProfileView" asp-controller="Profile" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-                                </div>
-                            </div>
-                        </div>*@
+                    
 
                 }
             </div>
         </div>
     </section>
+    <div class="text-center">
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <a asp-controller="Home" asp-action="Index" asp-route-spage=@(Model.PageViewModel.PageNumber - 1)
+               class="btn btn-info" style="width:100px;">
 
-    @if (Model.PageViewModel.HasPreviousPage)
-    {
-        <a asp-controller="Home" asp-action="Index" asp-route-spage=@(Model.PageViewModel.PageNumber - 1)
-           class="btn btn-info" style="width:100px;">
+                &#8678 Back
+            </a>
+        }
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <a asp-controller="Home" asp-action="Index"
+               asp-route-spage=@(Model.PageViewModel.PageNumber + 1)
+               class="btn btn-info my-2" style="width:100px;">
+                Forward &#8680
 
-            &#8678 Back
-        </a>
-    }
-    @if (Model.PageViewModel.HasNextPage)
-    {
-        <a asp-controller="Home" asp-action="Index"
-           asp-route-spage=@(Model.PageViewModel.PageNumber + 1)
-           class="btn btn-info my-2" style="width:100px;">
-            Forward &#8680
+            </a>
+        }
 
-        </a>
-    }
-
-   
+    </div> 
 </div>
 }
 else

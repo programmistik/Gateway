@@ -18,6 +18,8 @@ namespace MyIdentityService.Models
         public string Name { get; set; }
         public string Avatara { get; set; }
         public string From { get; set; }
+        public string Whatsapp { get; set; }
+        public string Skype { get; set; }
 
         public List<string> Friends { get; set; }
     }

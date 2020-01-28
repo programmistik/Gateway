@@ -1,27 +1,24 @@
 ﻿@model Profile
 
-@{
-    ViewData["Title"] = "ChangeProfile";
-}
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css" />
-<link type="text/css" href="css/my.css" rel="stylesheet" />
-<link type="text/css" href="css/app.css" rel="stylesheet" />
+@*<link type="text/css" href="css/my.css" rel="stylesheet" />
+<link type="text/css" href="css/app.css" rel="stylesheet" />*@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
 
 <h1>ChangeProfile</h1>
+<hr />
+
 <form asp-controller="Profile" asp-action="ChangeProfileInfo" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <label for="ImageUri">Avatara</label>
 
     <div class="input-group mb-3">
-        @*<div class="custom-file">
-                <input type="file" class="custom-file-input" id="inputGroupFile01" name="Avatara">
-                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-            </div>*@
+
         <main class="page">
 
-            <div class="box-2">
+            <div class="box-2" id="first-container">
                 <div class="result"></div>
             </div>
 
@@ -48,26 +45,7 @@
             <input name="Ava" type="text" class="form-control hide" id="Ava">
         </div>
 
-        @*<div class="file-field">
-                <div class="mb-4">
-                    @if (Model.Avatara == null)
-                    {
-                        <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg" width="150"
-                             class="rounded-circle z-depth-1-half avatar-pic" alt="example placeholder avatar">
-                    }
-                    else
-                    {
-                        <img src="/uploads/@(Model.Avatara) " alt="@Model.Name" width="200" height="200" class="rounded-circle" />
-                    }
 
-                </div>
-                <div class="d-flex justify-content-lg-start">
-                    <div class="btn btn-mdb-color btn-rounded float-left">
-                        <span>Add photo</span>
-                        <input type="file" name="Avatara">
-                    </div>
-                </div>
-            </div>*@
     </div>
 
 
@@ -79,12 +57,21 @@
         <label for="from">From</label>
         <input name="From" type="text" class="form-control" id="from" value="@Model.From">
     </div>
-    <button type="submit" class="btn btn-primary btn-info" value="Create">Save</button>
+    <div class="form-group">
+        <label for="from">Whatsapp</label>
+        <input name="Whatsapp" type="text" class="form-control" id="whatsapp" value="@Model.Whatsapp">
+    </div>
+    <div class="form-group">
+        <label for="from">Skype</label>
+        <input name="Skype" type="text" class="form-control" id="skype" value="@Model.Skype">
+    </div>
 
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-info" value="Create">Save</button>
+        <a class="btn  btn-outline-info " asp-controller="Profile" asp-action="UserProfile">Back</a>
+    </div>
 </form>
-<div>
-    <a class="btn btn-primary btn-dark" asp-controller="Profile" asp-action="UserProfile">Back</a>
-</div>
+
 <script src="~/js/Ava.js"></script>
 
 

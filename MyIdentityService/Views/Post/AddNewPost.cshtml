@@ -1,16 +1,24 @@
 ﻿@model Post
 
-@{
-    ViewData["Title"] = "AddNewPost";
-}
+
+<script src="https://cdn.tiny.cloud/1/l8rig6ghv6vl5ag739fxxt6xnhgt1htekk5htedo9be7jatq/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#mytextarea'
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.1.0/exif.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-scale.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-orientation.min.js"></script>
+
+<h1>New post</h1>
 
 
-<h1>AddNewPost</h1>
-
-<h4>Post</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="column">
         <form asp-controller="Post" asp-action="NewPost" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -19,24 +27,42 @@
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <label class="control-label mt-2">Image: </label>
             <div class="custom-file">
+
                 <input type="file" class="custom-file-input" id="inputGroupFile01" name="Image">
                 <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
             </div>
+
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea name="Description" class="form-control" rows="10" id="content" placeholder="Enter content"></textarea>
+                <label asp-for="Description" class="control-label mt-3"></label>
+                <textarea name="Description" class="form-control" rows="10" id="mytextarea" placeholder="Enter content"></textarea>
 
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
+
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-info" />
+                <a asp-controller="Profile" asp-action="UserProfile" asp-route-id="2" class="btn  btn-outline-info ">Back</a>
             </div>
         </form>
     </div>
+    <div class="column">
+        <div id="container2">
+        </div>
+    </div>
 </div>
 
-<div>
-    <a asp-controller="Profile" asp-action="UserProfile" asp-route-id="2" class="btn btn-lg btn-info my-2">Back</a>
-</div>
+<script>
+   
+</script>
+
+
 
