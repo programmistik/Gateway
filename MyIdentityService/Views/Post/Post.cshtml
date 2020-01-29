@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Post";
 }
-
+<script src="//cdn.jsdelivr.net/mojs/latest/mo.min.js"></script>
 
 <h1>
 
@@ -19,12 +19,12 @@
             <dd class="col-sm-10">
                 <img src="/uploads/profiles/100x100.@Model.Profile.Avatara" height="40" class="rounded-circle" />
                 <a asp-controller="Profile" asp-action="ProfileView" asp-route-id="@Model.Profile.AppUserId">
-                    @Html.DisplayFor(model => model.Profile.Name)
+                    <b>&nbsp; @Html.DisplayFor(model => model.Profile.Name)</b>
                 </a>
             </dd>
 
             <dd class="col-sm-10">
-                Date: @Html.DisplayFor(model => model.Post.Date)
+                <i>Date: @Html.DisplayFor(model => model.Post.Date)</i>
             </dd>
 
 
@@ -33,19 +33,36 @@
     <p>
         <img src="/uploads/@Model.Post.Image" alt="@Model.Post.Title" />
     </p>
+    @if (String.IsNullOrEmpty(Model.Post.Location) == false)
+    {
 
-    <div class="mt-3 ">
-        <i class="fas fa-map-marker-alt">&nbsp;@Html.DisplayFor(model => model.Post.Location)</i>   
-    </div>
-    <div  class="mt-3">
+        <div class="mt-3 ">
+            <i class="fas fa-map-marker-alt">&nbsp;@Html.DisplayFor(model => model.Post.Location)</i>
+        </div>
+    }
+    @if (Model.Owener == false)
+    {
+        @*@if (ViewBag.Liked == true)
+        {
+            <div class="m-4">
+                <span class="fas fa-heart liked"></span>
+                <span class="liked-text">@Model.Post.LikesProfileId.Count()</span>
+            </div>
+        }
+        else
+        {*@
+            <button class="icobutton icobutton--heart m-4 @(ViewBag.Liked ? "chk" : "")">
+                <span class="fas fa-heart"></span>
+                <span class="icobutton__text icobutton__text--side">@Model.Post.LikesProfileId.Count()</span>
+            </button>
+        //}
+    }
+    <div class="mt-1">
         <h3><b>Description:</b></h3>
         @Html.Raw(Model.Post.Description)
     </div>
 
-    @if (Model.Owener == false)
-    {
-        <button id="like" type="button" class="btn btn-lg @(ViewBag.Color ? "btn-danger" : "btn-success") my-2" onclick="jsAddLike('@Model.Post.Id')">❤ Like</button>
-    }
+
 </div>
 <!-- ==============================================
         Comments
@@ -106,30 +123,29 @@
 
 }
 
-<template>
-    <div class="tree-menu">
-        <div>{{ label }}</div>
-        <tree-menu v-for="node in @Model.Post.Comments"
-                   :nodes="node.Profile.Name"
-                   :label="node.CommentText"
-                   :depth="depth + 1">
-        </tree-menu>
-    </div>
-</template>
-<script>
-    export default {
-        props: ['label', 'nodes', 'depth'],
-        name: 'tree-menu',
-        computed: {
-            indent() {
-                return { transform: `translate(${this.depth * 50}px)` }
+@*<template>
+            <div class="tree-menu">
+                <div>{{ label }}</div>
+                <tree-menu v-for="node in @Model.Post.Comments"
+                           :nodes="node.Profile.Name"
+                           :label="node.CommentText"
+                           :depth="depth + 1">
+                </tree-menu>
+            </div>
+        </template>
+        <script>
+            export default {
+                props: ['label', 'nodes', 'depth'],
+                name: 'tree-menu',
+                computed: {
+                    indent() {
+                        return { transform: `translate(${this.depth * 50}px)` }
+                    }
+                }
             }
-        }
-    }
-</script>
+        </script>
 
-<div>
-    @*<a asp-controller="Profile" asp-action="UserProfile" asp-route-id="2" class="btn btn-lg btn-info my-2">Back</a>*@
-</div>
-<script src="~/js/site.js"></script>
-<script src="~/js/comments.js"></script>
+        <div>
+            <a asp-controller="Profile" asp-action="UserProfile" asp-route-id="2" class="btn btn-lg btn-info my-2">Back</a>
+    </div>*@
+

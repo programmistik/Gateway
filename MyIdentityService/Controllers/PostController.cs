@@ -202,9 +202,9 @@ namespace MyIdentityService
 
 
             if (currPost.LikesProfileId.Contains(User.Identity.Name))
-                ViewBag.Color = true;
+                ViewBag.Liked = true;
             else
-                ViewBag.Color = false;
+                ViewBag.Liked = false;
 
 
 
