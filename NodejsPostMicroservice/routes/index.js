@@ -67,4 +67,29 @@ router.post('/', (req, res) => {
     }
 });
 
+// PUT /Change post
+router.put('/', async (req, res) => {
+    let item = req.body;
+
+    const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
+    let dbClient = await client.connect();
+    let db = dbClient.db(dbName);
+
+
+    let collection = db.collection('Posts');
+
+    var myquery = { Id: item.Id };
+    console.log(item);
+    console.log(item.Title);
+   
+    var newvalues = { $set: { Title: item.Title, Location: item.Location, Description: item.Description } };
+
+        collection.updateOne(myquery, newvalues, function (err, resp) {
+            if (err) throw err;
+            console.log("post updated");
+            res.sendStatus(200);
+        });
+   
+});
+
 module.exports = router;

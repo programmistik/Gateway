@@ -1,4 +1,4 @@
-﻿@import url("http://fonts.googleapis.com/css?family=Montserrat:400,700");
+﻿@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
 @import url("https://fonts.googleapis.com/css?family=Varela+Round");
 @import url("https://fonts.googleapis.com/css?family=Abhaya+Libre");
 /*
@@ -6321,7 +6321,7 @@ div.blog-row {
     .tr-section .entry-meta, .tr-section .entry-meta a {
         font-family: 'Abhaya Libre', serif;
         font-size: 13px;
-        color: #858686 !important;
+        color: #858686 ;
         font-weight: 500;
     }
     /* line 59, ../scss/_index-4.scss */
@@ -7748,4 +7748,13 @@ header.profile-3 {
 /* line 63, ../scss/_followers-2.scss */
 .following b {
     font-weight: 600;
+}
+
+.cropper-crop-box, .cropper-view-box {
+    border-radius: 50%;
+}
+
+.cropper-view-box {
+    box-shadow: 0 0 0 1px #39f;
+    outline: 0;
 }

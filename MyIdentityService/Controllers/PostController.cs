@@ -469,9 +469,83 @@ namespace MyIdentityService
                // }
                 
             }
-            return View(Result);
+            return View(new NewsViewModel() {NewsList = Result, news = JsonConvert.SerializeObject(Result) } );
+        }
+
+        public async Task<IActionResult> EditPost(string id)
+        {
+            var currPost = await GetPostByIdAsync(id);
+
+            return View(currPost);
+        }
+
+        public async Task<IActionResult> ChangePost(Post post, string id)
+        {
+            var currPost = await GetPostByIdAsync(id);
+            post.Id = currPost.Id;
+            post.ProfileId = currPost.ProfileId;
+            post.Profile = _profileService.Get(currPost.ProfileId);
+            post.Date = currPost.Date;
+            post.Image = currPost.Image;
+            post.LikesProfileId = currPost.LikesProfileId;
+            post.ViewsProfileId = currPost.ViewsProfileId;
+            post.Comments = currPost.Comments;
+
+            //CONNECT
+            var client = new HttpClient();
+            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
+            if (disco.IsError)
+            {
+                // Console.WriteLine(disco.Error);
+                //return;
+            }
+
+            //GET TOKEN
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+
+                ClientId = "client",
+                ClientSecret = "secret",
+                Scope = "Post"
+            });
+            if (tokenResponse.IsError)
+            {
+                // Console.WriteLine(tokenResponse.Error);
+                //return;
+            }
+            //Console.WriteLine(tokenResponse.Json);
+
+            //CALL API
+
+
+
+            var js = JsonConvert.SerializeObject(post);
+
+
+            client.SetBearerToken(tokenResponse.AccessToken);
+            HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
+
+
+
+            var response = await client.PutAsync("http://localhost:5000/post", cont);
+            if (!response.IsSuccessStatusCode)
+            {
+                //Console.WriteLine(response.StatusCode);
+            }
+            else
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                //Console.WriteLine(content);
+            }
+
+
+
+            return RedirectToAction("UserProfile", "Profile", new { id = 2 });
         }
     }
+
+   
 
     public class ReqStr
     {

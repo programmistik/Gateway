@@ -1,0 +1,64 @@
+﻿@model Post
+
+
+<script src="https://cdn.tiny.cloud/1/l8rig6ghv6vl5ag739fxxt6xnhgt1htekk5htedo9be7jatq/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#mytextarea'
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.1.0/exif.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-scale.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-orientation.min.js"></script>
+
+<h1>@Model.Title</h1>
+
+
+<hr />
+<div class="row">
+    <div class="column">
+        <form asp-controller="Post" asp-action="ChangePost" asp-route-id="@Model.Id" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" value="@Model.Title" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" value="@Model.Location" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            @*<label class="control-label mt-2">Image: </label>
+            <div class="custom-file">
+
+                <input type="file" class="custom-file-input" id="inputGroupFile01" name="Image">
+                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+            </div>*@
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label mt-3"></label>
+                <textarea name="Description" class="form-control" rows="10" id="mytextarea">@Model.Description</textarea>
+
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-info" />
+                <a asp-controller="Profile" asp-action="UserProfile" asp-route-id="2" class="btn  btn-outline-info ">Back</a>
+            </div>
+        </form>
+    </div>
+    <div class="column ml-3">
+        <div id="container2">
+            <img src="/uploads/@Model.Image" alt="@Model.Title" />
+        </div>
+    </div>
+</div>
+
+

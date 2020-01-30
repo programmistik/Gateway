@@ -20,7 +20,7 @@
                @foreach (var item in Model.Posts)
                 {
                     <div class="col-sm-4">
-                        <div class="tr-section">
+                        <div class="tr-section border-card">
                             <div class="tr-post">
                                 <div class="entry-header">
                                     <div class="entry-thumbnail">
@@ -36,7 +36,7 @@
                                     <div class="entry-meta">
                                         <ul>
                                             <li><a asp-action="ProfileView" asp-controller="Profile" asp-route-id="@item.Profile.AppUserId">@item.Profile.Name</a></li>
-                                            <li>@item.Post.Date</li>
+                                            <li>@item.Post.Date.ToShortDateString()</li>
                                         </ul>
                                     </div><!-- /.entry-meta -->
                                     <h2 class="entry-title">

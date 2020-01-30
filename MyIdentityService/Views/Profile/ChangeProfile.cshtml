@@ -18,16 +18,31 @@
 
         <main class="page">
 
-            <div class="box-2" id="first-container">
-                <div class="result"></div>
+            <div class="camera">
+                <video id="video">Video stream not available.</video>
+                
             </div>
+
+            <canvas id="canvas">
+            </canvas>
+
+            <div class="output">
+                <div class="result"></div>
+                @*<img id="photo" alt="The screen capture will appear in this box.">*@
+            </div>
+
+            @*<div class="box-2" id="first-container">
+                <div class="result"></div>
+            </div>*@
 
             <div class="box-2 img-result hide">
                 <!-- result of crop -->
-                <img class="cropped" name="Avatara" src="" alt="">
+                <img class="cropped rounded-circle" name="Avatara" src="" alt="" width="200">
             </div>
 
-            <div class="box">
+            <div class="row m-3">
+                <button id="startbutton">Take photo</button>
+                &nbsp;&nbsp;or&nbsp;&nbsp;
                 <input type="file" id="file-input">
             </div>
 
@@ -73,5 +88,6 @@
 </form>
 
 <script src="~/js/Ava.js"></script>
+<script src="~/js/capture.js"></script>
 
 

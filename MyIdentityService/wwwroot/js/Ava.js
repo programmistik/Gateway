@@ -6,7 +6,6 @@ let result = document.querySelector('.result'),
     options = document.querySelector('.options'),
     save = document.querySelector('.save'),
     cropped = document.querySelector('.cropped'),
-    dwn = document.querySelector('.download'),
     upload = document.querySelector('#file-input'),
     cropper = '';
 
@@ -56,9 +55,6 @@ save.addEventListener('click', (e) => {
     img_result.classList.remove('hide');
     // show image cropped
     cropped.src = imgSrc;
-    dwn.classList.remove('hide');
-    dwn.download = 'imagename.png';
-    dwn.setAttribute('href', imgSrc);
     cropped.setAttribute('href', imgSrc);
 
     

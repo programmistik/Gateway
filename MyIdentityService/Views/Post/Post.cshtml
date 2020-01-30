@@ -123,29 +123,6 @@
 
 }
 
-@*<template>
-            <div class="tree-menu">
-                <div>{{ label }}</div>
-                <tree-menu v-for="node in @Model.Post.Comments"
-                           :nodes="node.Profile.Name"
-                           :label="node.CommentText"
-                           :depth="depth + 1">
-                </tree-menu>
-            </div>
-        </template>
-        <script>
-            export default {
-                props: ['label', 'nodes', 'depth'],
-                name: 'tree-menu',
-                computed: {
-                    indent() {
-                        return { transform: `translate(${this.depth * 50}px)` }
-                    }
-                }
-            }
-        </script>
+<script src="~/js/Like.js"></script>
 
-        <div>
-            <a asp-controller="Profile" asp-action="UserProfile" asp-route-id="2" class="btn btn-lg btn-info my-2">Back</a>
-    </div>*@
 

@@ -1,5 +1,5 @@
 ﻿
-@model List<PostViewModel>
+@model NewsViewModel
 
 @{
 	ViewData["Title"] = "News";
@@ -9,13 +9,13 @@
 	<div class="container">
 
 		<div class="checkbox mb-4">
-			<label><input type="checkbox" value="">Show news only from my friends</label>
+			<label><input type="checkbox" value="" onclick="jsShowNews(@Model.news)" />Show news only from my friends</label>
 		</div>
 
 		<div class="row">
 
 
-			@foreach (var item in Model)
+			@foreach (var item in Model.NewsList)
 			{
 
 
