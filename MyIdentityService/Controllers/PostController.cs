@@ -66,7 +66,7 @@ namespace MyIdentityService
 
 
 
-            var response = await client.PostAsync("http://localhost:5000/post", cont);
+            var response = await client.PostAsync("http://localhost:5012/post", cont);
             if (!response.IsSuccessStatusCode)
             {
                 //Console.WriteLine(response.StatusCode);
@@ -187,7 +187,7 @@ namespace MyIdentityService
 
 
 
-                    var response = await client.PutAsync("http://localhost:5000/views", cont);
+                    var response = await client.PutAsync("http://localhost:5012/views", cont);
                     if (!response.IsSuccessStatusCode)
                     {
                         //Console.WriteLine(response.StatusCode);
@@ -241,7 +241,7 @@ namespace MyIdentityService
             //CALL API
             client.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = await client.GetAsync("http://localhost:5000/post/" + id);
+            var response = await client.GetAsync("http://localhost:5012/post/" + id);
             if (!response.IsSuccessStatusCode)
             {
                 //  Console.WriteLine(response.StatusCode);
@@ -334,7 +334,7 @@ namespace MyIdentityService
 
 
 
-            var response = await client.PutAsync("http://localhost:5000/posts", cont);
+            var response = await client.PutAsync("http://localhost:5012/posts", cont);
             if (!response.IsSuccessStatusCode)
             {
                 //Console.WriteLine(response.StatusCode);
@@ -382,7 +382,7 @@ namespace MyIdentityService
             client.SetBearerToken(tokenResponse.AccessToken);
 
 
-            var response = await client.DeleteAsync("http://localhost:5000/posts/" + id);
+            var response = await client.DeleteAsync("http://localhost:5012/posts/" + id);
             if (!response.IsSuccessStatusCode)
             {
                 //Console.WriteLine(response.StatusCode);
@@ -440,7 +440,7 @@ namespace MyIdentityService
                 var posts = new List<Post>();
 
             //var response = await client.GetAsync("http://localhost:5000/views/" + id + "/"+myId);
-            var response = await client.GetAsync("http://localhost:5000/views/" + "smthg" + "/" + myId);
+            var response = await client.GetAsync("http://localhost:5012/views/" + "smthg" + "/" + myId);
             if (!response.IsSuccessStatusCode)
                 {
                     //  Console.WriteLine(response.StatusCode);
@@ -528,7 +528,7 @@ namespace MyIdentityService
 
 
 
-            var response = await client.PutAsync("http://localhost:5000/post", cont);
+            var response = await client.PutAsync("http://localhost:5012/post", cont);
             if (!response.IsSuccessStatusCode)
             {
                 //Console.WriteLine(response.StatusCode);

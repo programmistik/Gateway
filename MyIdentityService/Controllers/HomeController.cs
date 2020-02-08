@@ -58,7 +58,7 @@ namespace MyIdentityService.Controllers
             client.SetBearerToken(tokenResponse.AccessToken);
 
 
-            var response = await client.GetAsync("http://localhost:5000/post/");
+            var response = await client.GetAsync("http://localhost:5012/post/");
             if (!response.IsSuccessStatusCode)
             {
                 //  Console.WriteLine(response.StatusCode);
@@ -171,7 +171,7 @@ namespace MyIdentityService.Controllers
             client.SetBearerToken(tokenResponse.AccessToken);
 
             
-            var response = await client.GetAsync("http://localhost:5000/profile/" + str);
+            var response = await client.GetAsync("http://localhost:5012/profile/" + str);
             if (!response.IsSuccessStatusCode)
             {
                 //  Console.WriteLine(response.StatusCode);
@@ -184,7 +184,7 @@ namespace MyIdentityService.Controllers
             }
 
 
-            var responsePost = await client.GetAsync("http://localhost:5000/search/" + str.ToLower());
+            var responsePost = await client.GetAsync("http://localhost:5012/search/" + str.ToLower());
             if (!responsePost.IsSuccessStatusCode)
             {
                 //  Console.WriteLine(response.StatusCode);

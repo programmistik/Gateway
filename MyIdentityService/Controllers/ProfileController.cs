@@ -62,7 +62,7 @@ namespace MyIdentityService.Controllers
 
             var UserId = profile.AppUserId;
 
-            var response = await client.GetAsync("http://localhost:5000/posts/"+UserId);
+            var response = await client.GetAsync("http://localhost:5012/posts/"+UserId);
             if (!response.IsSuccessStatusCode)
             {
               //  Console.WriteLine(response.StatusCode);
@@ -176,7 +176,7 @@ namespace MyIdentityService.Controllers
                 client.SetBearerToken(tokenResponse.AccessToken);
 
 
-                var response = await client.GetAsync("http://localhost:5000/posts/" + AppUserId);
+                var response = await client.GetAsync("http://localhost:5012/posts/" + AppUserId);
                 if (!response.IsSuccessStatusCode)
                 {
                     //  Console.WriteLine(response.StatusCode);
@@ -251,7 +251,7 @@ namespace MyIdentityService.Controllers
 
 
 
-            var response = await client.PutAsync("http://localhost:5000/friends", cont);
+            var response = await client.PutAsync("http://localhost:5012/friends", cont);
             if (!response.IsSuccessStatusCode)
             {
                 //Console.WriteLine(response.StatusCode);

@@ -20,7 +20,7 @@
                @foreach (var item in Model.Posts)
                 {
                     <div class="col-sm-4">
-                        <div class="tr-section border-card">
+                        <div class="tr-section border-card" style="height: 22em;">
                             <div class="tr-post">
                                 <div class="entry-header">
                                     <div class="entry-thumbnail">
@@ -89,6 +89,8 @@
 }
 else
 {
+    @if (Model.Posts.Count() > 0)
+    {
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -127,5 +129,6 @@ else
             <span class="sr-only">Next</span>
         </a>
     </div>
-        
-}
+        }
+
+    }

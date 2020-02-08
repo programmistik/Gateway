@@ -4,7 +4,9 @@ var router = express.Router();
 let mongo = require('mongodb');
 let MongoClient = mongo.MongoClient;
 
-const url = 'mongodb://localhost:27017';
+//const url = 'mongodb://localhost:27017';
+const url = 'mongodb+srv://diana:Unicorn123@cluster0-nhtbf.mongodb.net/test?retryWrites=true&w=majority';
+
 const dbName = 'InstaApp';
 
 /* GET all new posts from my friends */
