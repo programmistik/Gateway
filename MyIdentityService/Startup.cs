@@ -17,9 +17,11 @@ namespace MyIdentityService
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IHostingEnvironment _env { get; }
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }

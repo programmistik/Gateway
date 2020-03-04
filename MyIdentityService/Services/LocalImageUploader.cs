@@ -9,15 +9,23 @@ using System.Drawing.Imaging;
 using ImageMagick;
 using IdentityModel.Client;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Hosting;
 
 namespace MyIdentityService.Services
 {
     public class LocalImageUploader : IImageUploader
     {
+        public IHostingEnvironment _env { get; }
+        public LocalImageUploader(IHostingEnvironment env)
+        {
+            _env = env;
+        }
+
         public async Task<string> Upload(IFormFile file)
         {
             var filename = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-            var path = $"wwwroot/uploads/{filename}";
+            var path = _env.WebRootPath + $"/uploads/{filename}";
+            //var path = $"wwwroot/uploads/{filename}";
 
             using (var fs = new FileStream(path, FileMode.CreateNew))
             {
@@ -50,7 +58,8 @@ namespace MyIdentityService.Services
                 image.Resize(size);
 
                 // Save the result
-                image.Write("wwwroot/uploads/min." + filename);
+                //image.Write("wwwroot/uploads/min." + filename);
+                image.Write(_env.WebRootPath + "/uploads/min." + filename);
             }
 
             return filename;
@@ -61,7 +70,8 @@ namespace MyIdentityService.Services
         {
             
             var filename = $"{IdentityId}.png";
-            var path = $"wwwroot/uploads/profiles/{filename}";
+            //var path = $"wwwroot/uploads/profiles/{filename}";
+            var path = _env.WebRootPath + $"/uploads/profiles/{filename}";
 
             DataImage StrImage = DataImage.TryParse(file);
             
@@ -101,7 +111,7 @@ namespace MyIdentityService.Services
                 image.Resize(size);
 
                 // Save the result
-                image.Write("wwwroot/uploads/profiles/100x100." + filename);
+                image.Write(_env.WebRootPath + "/uploads/profiles/100x100." + filename);
             }
 
 
