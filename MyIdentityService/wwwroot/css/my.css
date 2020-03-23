@@ -6472,9 +6472,9 @@ a.bg-inverse:focus, a.bg-inverse:hover {
     display: inline-block !important;
 }
 
-.d-block {
+/*.d-block {
     display: block !important;
-}
+}*/
 
 .d-table {
     display: table !important;

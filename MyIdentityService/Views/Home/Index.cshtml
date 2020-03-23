@@ -89,7 +89,7 @@
 }
 else
 {
-    @if (Model.Posts.Count() > 3)
+    @if (Model.Posts.Count() > 0)
     {
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -99,21 +99,21 @@ else
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="/uploads/@Model.Posts.First().Post.Image" alt="Первый слайд">
+                <img class="w-100" src="/uploads/@Model.Posts.First().Post.Image" alt="Первый слайд" height="700" style="object-fit: cover">
                 <div class="carousel-caption d-none d-md-block">
                     <h3>Easy upload your images</h3>
                     <p>Upload your images from any device</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="/uploads/@Model.Posts.Skip(1).First().Post.Image" alt="Второй слайд">
+                <img class="w-100" src="/uploads/@Model.Posts.Skip(1).First().Post.Image" alt="Второй слайд" height="700" style="object-fit: cover">
                 <div class="carousel-caption d-none d-md-block">
                     <h3>Be in contact with friends</h3>
                     <p>See what's new from your friends</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="/uploads/@Model.Posts.Skip(2).First().Post.Image" alt="Третий слайд">
+                <img class="w-100" src="/uploads/@Model.Posts.Skip(2).First().Post.Image" alt="Третий слайд" height="700" style="object-fit: cover">
                 <div class="carousel-caption d-none d-md-block">
                     <h3>Comment everything</h3>
                     <p>Wright comments to every post you want</p>

@@ -135,6 +135,66 @@ function jsShowNews(model) {
 }
 
 
+//----------------------
+
+let tree = {
+    label: 'root',
+    nodes: [
+        {
+            label: 'item1',
+            nodes: [
+                {
+                    label: 'item1.1'
+                },
+                {
+                    label: 'item1.2',
+                    nodes: [
+                        {
+                            label: 'item1.2.1'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            label: 'item2'
+        }
+    ]
+}
+
+Vue.component('tree-menu', {
+    props: ['label', 'nodes', 'depth'],
+    name: 'tree-menu',
+    computed: {
+        indent() {
+            return { transform: `translate(${this.depth * 50}px)` }
+        }
+    },
+    template: `
+<div class="tree-menu">
+    <div :style="indent">{{ label }}</div>
+    <tree-menu 
+      v-for="node in nodes" 
+      :nodes="node.nodes" 
+      :label="node.label"
+      :depth="depth + 1"
+    >
+    </tree-menu>
+  </div>
+`
+});
+
+
+
+
+new Vue({
+    el: "#app",
+    data: {
+        tree
+    }
+
+});
+
 	
 
 

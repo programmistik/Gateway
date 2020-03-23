@@ -20,6 +20,7 @@ namespace MyIdentityService.Services
         {
             _env = env;
         }
+       
 
         public async Task<string> Upload(IFormFile file)
         {
@@ -111,6 +112,7 @@ namespace MyIdentityService.Services
                 image.Resize(size);
 
                 // Save the result
+                //image.Write("wwwroot/uploads/profiles/100x100." + filename);
                 image.Write(_env.WebRootPath + "/uploads/profiles/100x100." + filename);
             }
 

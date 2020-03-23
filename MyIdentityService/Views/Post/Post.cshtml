@@ -4,6 +4,7 @@
     ViewData["Title"] = "Post";
 }
 <script src="//cdn.jsdelivr.net/mojs/latest/mo.min.js"></script>
+<script src="https://unpkg.com/vue"></script>
 
 <h1>
 
@@ -83,9 +84,13 @@
     </div>
 </ul>
 
+<div id="app">
+    <tree-menu :label="tree.label" :nodes="tree.nodes" :depth="0"></tree-menu>
+</div>
+
 @*<button type="button" class="btn btn-info" onclick="jsRenderAll('@Model.Post.Comments')"> Render </button>*@
 
-@foreach (var item in Model.Post.Comments)
+@*@foreach (var item in Model.Post.Comments)
 {
     <li class="media mt-2">
         <div class="media-left">
@@ -118,7 +123,7 @@
     <ul class="media-list">
         <div id="text">
         </div>
-    </ul>
+    </ul>*@
 
 
 }

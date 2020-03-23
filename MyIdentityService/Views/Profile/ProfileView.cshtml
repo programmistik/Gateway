@@ -6,11 +6,34 @@
 
 <h1>@Model.Profile.Name</h1>
 <hr>
+<div class="row">
+    <div class="column m-3">
+        <img src="/uploads/profiles/@(Model.Profile.Avatara ?? "http://abs2018.lbsafricaclub.org/wp-content/uploads/2016/03/profile-placeholder-300x300.png")" alt="@Model.Profile.Name" width="200" height="200" class="rounded-circle" />
+    </div>
+    <div class="column m-3">
+        <div class="ml-4">
+            <h5 class ="font-weight-bold"> Name: @Model.Profile.Name</h5>
+            @if (String.IsNullOrEmpty(@Model.Profile.From) == false)
+            {
+                <h5><i class="fas fa-map-marker-alt">&nbsp;@Model.Profile.From</i></h5>
+            }
 
-    <img src="/uploads/profiles/@(Model.Profile.Avatara ?? "http://abs2018.lbsafricaclub.org/wp-content/uploads/2016/03/profile-placeholder-300x300.png")" alt="@Model.Profile.Name" width="200" height="200" class="rounded-circle" />
-    <h5> Name: @Model.Profile.Name</h5>
+            <h5><i class="far fa-envelope">&nbsp;@Model.Profile.AppUserId</i></h5>
 
-    <br />
+            @if (String.IsNullOrEmpty(@Model.Profile.Whatsapp) == false)
+            {
+                <h5><i class="fab fa-whatsapp">&nbsp;@Model.Profile.Whatsapp</i></h5>
+            }
+            @if (String.IsNullOrEmpty(@Model.Profile.Skype) == false)
+            {
+                <h5><i class="fab fa-skype">&nbsp;@Model.Profile.Skype</i></h5>
+            }
+        </div>
+
+    </div>
+</div>
+
+<br />
 @if (ViewBag.ShowButton)
 {
     <div>
@@ -20,23 +43,23 @@
     </div>
 }
 
-    <br />
-    <div class="row mt-2">
-        @foreach (var item in Model.Posts)
-        {
-            <div class="col-12 col-md-3">
-                <div class="card">
-                    <img src="/uploads/min.@item.Image" class="card-img-top" alt="@item.Title" height="250" style="object-fit: cover">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Title</h5>
-                        @*<p class="card-text">@item.Description</p>*@
-                        <p class="card-text"><p class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</p></p>
-                        <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-outline-info">Details</a>
-                    </div>
+<br />
+<div class="row mt-2">
+    @foreach (var item in Model.Posts)
+    {
+        <div class="col-12 col-md-3">
+            <div class="card">
+                <img src="/uploads/min.@item.Image" class="card-img-top entry-title" alt="@item.Title" style=" image-orientation:from-image; object-fit: cover" height="250">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    @*<p class="card-text">@item.Description</p>*@
+                    <p class="card-text"><p class="text-muted"> 👁 @item.ViewsProfileId.Count() ❤ @item.LikesProfileId.Count()</p></p>
+                    <a asp-action="Post" asp-controller="Post" asp-route-id="@item.Id" class="btn btn-outline-info">Details</a>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
+</div>
 
-    <script src="~/js/site.js"></script>
+<script src="~/js/site.js"></script>
 

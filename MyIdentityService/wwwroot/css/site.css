@@ -247,3 +247,15 @@ img {
     font-family: "Lucida Grande", "Arial", sans-serif;
     width: 760px;
 }
+
+.entry-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #1ab394 !important;
+}
+
+.d-block {
+    object-fit: cover;
+    display: flex;
+}
