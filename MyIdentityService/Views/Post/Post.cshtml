@@ -44,18 +44,18 @@
     @if (Model.Owener == false)
     {
         @*@if (ViewBag.Liked == true)
-        {
-            <div class="m-4">
-                <span class="fas fa-heart liked"></span>
-                <span class="liked-text">@Model.Post.LikesProfileId.Count()</span>
-            </div>
-        }
-        else
-        {*@
-            <button class="icobutton icobutton--heart m-4 @(ViewBag.Liked ? "chk" : "")">
-                <span class="fas fa-heart"></span>
-                <span class="icobutton__text icobutton__text--side">@Model.Post.LikesProfileId.Count()</span>
-            </button>
+            {
+                <div class="m-4">
+                    <span class="fas fa-heart liked"></span>
+                    <span class="liked-text">@Model.Post.LikesProfileId.Count()</span>
+                </div>
+            }
+            else
+            {*@
+        <button class="icobutton icobutton--heart m-4 @(ViewBag.Liked ? "chk" : "")">
+            <span class="fas fa-heart"></span>
+            <span class="icobutton__text icobutton__text--side">@Model.Post.LikesProfileId.Count()</span>
+        </button>
         //}
     }
     <div class="mt-1">
@@ -91,43 +91,45 @@
 @*<button type="button" class="btn btn-info" onclick="jsRenderAll('@Model.Post.Comments')"> Render </button>*@
 
 @*@foreach (var item in Model.Post.Comments)
-{
-    <li class="media mt-2">
-        <div class="media-left">
+    {
+        <li class="media mt-2">
+            <div class="media-left">
 
-            <img class="media-object img-circle" src="/uploads/profiles/100x100.@item.Profile.Avatara" alt="...">
+                <img class="media-object img-circle" src="/uploads/profiles/100x100.@item.Profile.Avatara" alt="...">
 
-        </div>
-        <div class="media-body">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="author"><b>@item.Profile.Name</b></div>
-                    <div class="metadata">
-                        <span class="date">@item.CommentDate</span>
+            </div>
+            <div class="media-body">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="author"><b>@item.Profile.Name</b></div>
+                        <div class="metadata">
+                            <span class="date">@item.CommentDate</span>
+                        </div>
                     </div>
-                </div>
-                <div class="panel-body">
-                    <div class="media-text text-justify">@item.CommentText</div>
-                    <div class="pull-right"><a class="btn btn-info" id=@item.CommentId onclick="jsReplay('@Model.CurrUserProfile')">Replay</a></div>
-                    <div id="replayText">
-                    </div>
-                    @if (@item.Comments.Count() > 0)
-                    {
+                    <div class="panel-body">
+                        <div class="media-text text-justify">@item.CommentText</div>
+                        <div class="pull-right"><a class="btn btn-info" id=@item.CommentId onclick="jsReplay('@Model.CurrUserProfile')">Replay</a></div>
+                        <div id="replayText">
+                        </div>
+                        @if (@item.Comments.Count() > 0)
+                        {
 
-                    }
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </li>
-    <ul class="media-list">
-        <div id="text">
-        </div>
-    </ul>*@
+        </li>
+        <ul class="media-list">
+            <div id="text">
+            </div>
+        </ul>*@
 
 
 }
 
 <script src="~/js/Like.js"></script>
+<script src="~/js/comments.js"></script>
+
 
 
