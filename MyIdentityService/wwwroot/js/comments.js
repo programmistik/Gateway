@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 ﻿
 let name;
-=======
-﻿let name;
->>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
 let ava;
 
 function create_UUID() {
@@ -16,20 +12,13 @@ function create_UUID() {
     return uuid;
 }
 
-function jsAddComment(CurrUserProfile) {
+function jsAddComment(CurrUserProfile, PostId) {
     let obj = JSON.parse(CurrUserProfile);
     let res = document.querySelector("#text");
     let txt = document.querySelector("#comment");
 
     name = obj.Name;
-    ava = obj.Avatara;
-
-    let uuid = create_UUID();
-<<<<<<< HEAD
-
-=======
    
->>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
     let temp = `
 <li class="media mt-2">
                 <div class="media-left">
@@ -63,11 +52,7 @@ function jsAddComment(CurrUserProfile) {
     $.ajax({
         url: '/Post/jsAddComment',
         type: 'POST',
-<<<<<<< HEAD
-        data: { id: uuid, Obj: CurrUserProfile, Text: tekst },
-=======
-        data: { id: uuid, Obj: CurrUserProfile, Text: tekst},
->>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
+        data: { id: PostId, CommentId:uuid, Obj: CurrUserProfile, Text: tekst },
         success: function (data) {
             //let btn = $('#like');
             //if (btn.hasClass('btn-danger')) {
@@ -75,25 +60,14 @@ function jsAddComment(CurrUserProfile) {
             console.log('ok');
         }
     });
-<<<<<<< HEAD
-
-}
-
-function jsReplay(uuid) {
-
-    var element = document.getElementById(uuid);
-    element.classList.add("hide");
-    let rep = document.getElementById("replayText" + uuid); //document.querySelector("#replayText${uuid}");
-=======
    
 }
 
-function jsReplay(uuid) {
+function jsReplay() {
   
-    var element = document.getElementById(uuid);
+    var element = document.getElementById("replayBtn");
     element.classList.add("hide");
-    let rep = document.getElementById("replayText"+uuid); //document.querySelector("#replayText${uuid}");
->>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
+    let rep = document.querySelector("#replayText");
 
     let temp = ` 
         <div class="form-group mt-3 pl-3">
@@ -118,22 +92,14 @@ function jsAddReplayComment(uuid) {
     el.classList.remove("hide");
 
     var element = document.getElementById("RepComment");
-<<<<<<< HEAD
-    // element.classList.add("hide");
-=======
    // element.classList.add("hide");
->>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
-    let resp = document.getElementById("comm" + uuid); //document.querySelector("#comm");
-    let newUuid = create_UUID();
+    let resp = document.querySelector("#comm");
 
     let temp = ` 
         <li class="media mt-2">
                 <div class="media-left">
-<<<<<<< HEAD
-=======
 
->>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
-                        <img class="media-object img-circle" src="/uploads/profiles/100x100.${ava}" alt="...">
+                        <img class="media-object img-circle" src="/uploads/profiles/100x100." alt="...">
                     
                 </div>
                 <div class="media-body">
@@ -146,21 +112,16 @@ function jsAddReplayComment(uuid) {
                         </div>
                         <div class="panel-body">
                             <div class="media-text text-justify">${element.value}</div>
-                            <div class="pull-right"><a class="btn btn-info" id="${newUuid}" onclick="jsReplay('${newUuid}')">Replay</a></div>
-                                
+                            <div class="pull-right"><a class="btn btn-info" id="replayBtn" onclick="jsReplay()">Replay</a></div>
+                                <div id="replayText">
+                                </div>
                         </div>
-<<<<<<< HEAD
-                        <div id="replayText${newUuid}">
-                                </div>
                     </div>
 </li>
-=======
-<div id="replayText${newUuid}">
-                                </div>
-                    </div>
-</li>
-
->>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
+<ul class="media-list">
+    <div id="text">
+    </div>
+</ul>
 `;
     element.remove();
     document.getElementById("ComTxt").remove();

@@ -77,7 +77,7 @@
     <label for="comment">Comment:</label>
     <textarea class="form-control" rows="5" id="comment"></textarea>
 </div>
-<button id="AddComment" type="button" class="btn btn-info" onclick="jsAddComment('@Model.CurrUserProfile')"> Send </button>
+<button id="AddComment" type="button" class="btn btn-info" onclick="jsAddComment('@Model.CurrUserProfile','@Model.Post.Id')"> Send </button>
 
 <ul class="media-list">
     <div id="text">
