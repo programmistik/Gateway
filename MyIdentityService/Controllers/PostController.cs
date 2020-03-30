@@ -543,15 +543,25 @@ namespace MyIdentityService
 
             return RedirectToAction("UserProfile", "Profile", new { id = 2 });
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
         [HttpPost]
         public async Task jsAddComment(string id, string Obj, string Text)
         {
 
+<<<<<<< HEAD
 
         }
+=======
+ 
+        }
+
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
     }
 
-   
+
 
     public class ReqStr
     {

@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿
 let name;
+=======
+﻿let name;
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
 let ava;
 
 function create_UUID() {
@@ -21,7 +25,11 @@ function jsAddComment(CurrUserProfile) {
     ava = obj.Avatara;
 
     let uuid = create_UUID();
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
     let temp = `
 <li class="media mt-2">
                 <div class="media-left">
@@ -55,7 +63,11 @@ function jsAddComment(CurrUserProfile) {
     $.ajax({
         url: '/Post/jsAddComment',
         type: 'POST',
+<<<<<<< HEAD
         data: { id: uuid, Obj: CurrUserProfile, Text: tekst },
+=======
+        data: { id: uuid, Obj: CurrUserProfile, Text: tekst},
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
         success: function (data) {
             //let btn = $('#like');
             //if (btn.hasClass('btn-danger')) {
@@ -63,6 +75,7 @@ function jsAddComment(CurrUserProfile) {
             console.log('ok');
         }
     });
+<<<<<<< HEAD
 
 }
 
@@ -71,6 +84,16 @@ function jsReplay(uuid) {
     var element = document.getElementById(uuid);
     element.classList.add("hide");
     let rep = document.getElementById("replayText" + uuid); //document.querySelector("#replayText${uuid}");
+=======
+   
+}
+
+function jsReplay(uuid) {
+  
+    var element = document.getElementById(uuid);
+    element.classList.add("hide");
+    let rep = document.getElementById("replayText"+uuid); //document.querySelector("#replayText${uuid}");
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
 
     let temp = ` 
         <div class="form-group mt-3 pl-3">
@@ -95,13 +118,21 @@ function jsAddReplayComment(uuid) {
     el.classList.remove("hide");
 
     var element = document.getElementById("RepComment");
+<<<<<<< HEAD
     // element.classList.add("hide");
+=======
+   // element.classList.add("hide");
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
     let resp = document.getElementById("comm" + uuid); //document.querySelector("#comm");
     let newUuid = create_UUID();
 
     let temp = ` 
         <li class="media mt-2">
                 <div class="media-left">
+<<<<<<< HEAD
+=======
+
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
                         <img class="media-object img-circle" src="/uploads/profiles/100x100.${ava}" alt="...">
                     
                 </div>
@@ -118,10 +149,18 @@ function jsAddReplayComment(uuid) {
                             <div class="pull-right"><a class="btn btn-info" id="${newUuid}" onclick="jsReplay('${newUuid}')">Replay</a></div>
                                 
                         </div>
+<<<<<<< HEAD
                         <div id="replayText${newUuid}">
                                 </div>
                     </div>
 </li>
+=======
+<div id="replayText${newUuid}">
+                                </div>
+                    </div>
+</li>
+
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
 `;
     element.remove();
     document.getElementById("ComTxt").remove();

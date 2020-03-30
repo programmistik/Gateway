@@ -28,9 +28,13 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Content Include="routes\comments.js">
       <SubType>Code</SubType>
     </Content>
+=======
+    <Content Include="routes\comments.js" />
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
     <Content Include="routes\friends.js" />
     <Content Include="routes\index.js">
       <SubType>Code</SubType>

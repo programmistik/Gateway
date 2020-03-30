@@ -10,7 +10,33 @@ const dbName = 'InstaApp';
 
 
 
+<<<<<<< HEAD
 
+=======
+/* GET posts by user id */
+router.get('/:id', async (req, res) => {
+    let id = req.params.id;
+    if (id) {
+        const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
+        let dbClient = await client.connect();
+        let db = dbClient.db(dbName);
+        let collection = db.collection('Posts');
+
+        let result = await collection.find({ ProfileId : id }).toArray();
+        
+
+        res.json(result);
+    } else {
+        res.statusCode = 404;
+        res.statusMessage = 'Post not found!';
+        let error = {
+            code: res.statusCode,
+            message: res.statusMessage
+        };
+        res.json(error);
+    }
+});
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
 
 // PUT /Change post
 router.put('/', async (req, res) => {
@@ -23,33 +49,71 @@ router.put('/', async (req, res) => {
     let dbClient = await client.connect();
     let db = dbClient.db(dbName);
 
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
     let collection = db.collection('Posts');
 
     var myquery = { Id: item.Id };
 
+<<<<<<< HEAD
    
         console.log(item.Id);
         var newvalues = {
             $push: { Comments: item.Comment }
+=======
+    console.log(item.Method);
+    if (item.Method == 'Add') {
+        console.log(item.Id);
+        var newvalues = {
+            $push: { LikesProfileId: item.UserId }
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
         };
 
         collection.updateOne(myquery, newvalues, function (err, resp) {
             if (err) throw err;
+<<<<<<< HEAD
             console.log("1 comment added");
             res.sendStatus(200);
         });
    
+=======
+            console.log("1 document updated");
+            res.sendStatus(200);
+        });
+    }
+    else {
+        var newvalues = {
+            $pullAll: {
+                LikesProfileId: [ item.UserId ]}
+        };
+
+        collection.updateOne(myquery, newvalues, function (err, resp) {
+            if (err) throw err;
+            console.log("1 document deleted");
+            res.sendStatus(200);
+        });
+
+    }
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
     //collection.deleteOne({ Id: item.id });
 
 
     //let response = await collection.insertOne(item);
     //res.sendStatus(200);
 
+<<<<<<< HEAD
 
 });
 
 //});
+=======
+    
+});
+   
+>>>>>>> 57b640ed5bdb0e5d3bd2b5b12165a8325bed3c61
 
 
 
