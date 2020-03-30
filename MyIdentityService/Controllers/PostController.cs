@@ -543,6 +543,12 @@ namespace MyIdentityService
 
             return RedirectToAction("UserProfile", "Profile", new { id = 2 });
         }
+        [HttpPost]
+        public async Task jsAddComment(string id, string Obj, string Text)
+        {
+
+
+        }
     }
 
    
