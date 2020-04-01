@@ -561,9 +561,14 @@ namespace MyIdentityService
                 Profile = prof
             };
 
-            var post = await GetPostByIdAsync(id);
+            var post = //await GetPostByIdAsync(id);
+                new PostComment
+                {
+                    Id = id,
+                    Comment = newComment
+                };
 
-            post.Comments.Add(newComment);
+           // post.Comments.Add(newComment);
 
 
             //CONNECT
@@ -631,5 +636,11 @@ namespace MyIdentityService
         public string Id { get; set; } // postId
         
         public string UserId { get; set; }
+    }
+    public class PostComment
+    {
+        public string Id { get; set; } // postId
+
+        public Comment Comment { get; set; }
     }
 }

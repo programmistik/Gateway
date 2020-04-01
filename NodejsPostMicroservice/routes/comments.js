@@ -38,6 +38,10 @@ router.get('/:id', async (req, res) => {
 router.put('/', async (req, res) => {
     let item = req.body;
     console.log("start update");
+    console.log(item);
+    console.log(item.Id);
+    console.log(item.Comment);
+
 
     const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
     let dbClient = await client.connect();
@@ -60,8 +64,8 @@ router.put('/', async (req, res) => {
         res.sendStatus(200);
     });
 
-            console.log(" updated");
-            res.sendStatus(200);
+            //console.log(" updated");
+            //res.sendStatus(200);
     
 
 });

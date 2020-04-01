@@ -18,6 +18,9 @@ function jsAddComment(CurrUserProfile, PostId) {
     let txt = document.querySelector("#comment");
 
     name = obj.Name;
+    ava = obj.Avatara;
+
+    let uuid = create_UUID();
    
     let temp = `
 <li class="media mt-2">
