@@ -37,6 +37,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="routes\profile.js" />
+    <Content Include="routes\replay.js" />
     <Content Include="routes\search.js" />
     <Content Include="routes\views.js">
       <SubType>Code</SubType>

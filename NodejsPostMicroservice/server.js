@@ -12,6 +12,7 @@ var profileRouter = require('./routes/profile');
 var friendsRouter = require('./routes/friends');
 var viewsRouter = require('./routes/views');
 var commentsRouter = require('./routes/comments');
+var replayRouter = require('./routes/replay');
 
 
 
@@ -58,6 +59,7 @@ app.use('/profile', profileRouter);
 app.use('/friends', friendsRouter);
 app.use('/views', viewsRouter);
 app.use('/comments', commentsRouter);
+app.use('/replay', replayRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

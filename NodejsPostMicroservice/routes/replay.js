@@ -10,29 +10,6 @@ const dbName = 'InstaApp';
 
 
 
-/* GET posts by user id */
-router.get('/:id', async (req, res) => {
-    let id = req.params.id;
-    if (id) {
-        const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
-        let dbClient = await client.connect();
-        let db = dbClient.db(dbName);
-        let collection = db.collection('Posts');
-
-        let result = await collection.find({ ProfileId : id }).toArray();
-
-
-        res.json(result);
-    } else {
-        res.statusCode = 404;
-        res.statusMessage = 'Post not found!';
-        let error = {
-            code: res.statusCode,
-            message: res.statusMessage
-        };
-        res.json(error);
-    }
-});
 
 // PUT /Change post
 router.put('/', async (req, res) => {

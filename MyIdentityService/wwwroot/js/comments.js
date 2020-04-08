@@ -39,7 +39,7 @@ function jsAddComment(CurrUserProfile, PostId) {
                         </div>
                         <div class="panel-body">
                             <div class="media-text text-justify">${txt.value}</div>
-                            <div class="pull-right"><a class="btn btn-info" id="${uuid}" onclick="jsReplay('${uuid}')">Replay</a></div>
+                            <div class="pull-right"><a class="btn btn-info" id="replayBtn${uuid}" onclick="jsReplay('${uuid}','${PostId}')">Replay</a></div>
                               
                         </div>
                         <div id="replayText${uuid}">
@@ -66,11 +66,11 @@ function jsAddComment(CurrUserProfile, PostId) {
    
 }
 
-function jsReplay() {
+function jsReplay(uuid, PostId) {
   
-    var element = document.getElementById("replayBtn");
+    var element = document.getElementById("replayBtn"+uuid);
     element.classList.add("hide");
-    let rep = document.querySelector("#replayText");
+    let rep = document.getElementById("replayText" + uuid);
 
     let temp = ` 
         <div class="form-group mt-3 pl-3">
@@ -78,7 +78,7 @@ function jsReplay() {
             <textarea class="form-control" rows="5" id="RepComment"></textarea>
         </div>
 <div class="pl-3 pb-3">
-        <button id="AddComment${uuid}" type="button" class="btn btn-info" onclick="jsAddReplayComment('${uuid}')"> Send </button>
+        <button id="AddComment${uuid}" type="button" class="btn btn-info" onclick="jsAddReplayComment('${uuid}','${PostId}')"> Send </button>
 </div>
 <ul class="media-list">
     <div id="comm${uuid}">
@@ -89,7 +89,7 @@ function jsReplay() {
 
 }
 
-function jsAddReplayComment(uuid) {
+function jsAddReplayComment(uuid, PostId) {
 
     var el = document.getElementById(uuid);
     el.classList.remove("hide");
@@ -126,10 +126,23 @@ function jsAddReplayComment(uuid) {
     </div>
 </ul>
 `;
+    let tekst = element.value;
     element.remove();
     document.getElementById("ComTxt").remove();
     document.getElementById("AddComment" + uuid).remove();
     resp.insertAdjacentHTML("beforebegin", temp);
+
+    $.ajax({
+        url: '/Post/jsAddReplay',
+        type: 'POST',
+        data: { id: PostId, CommentId: uuid, Obj: CurrUserProfile, Text: tekst },
+        success: function (data) {
+            //let btn = $('#like');
+            //if (btn.hasClass('btn-danger')) {
+            //    btn.removeClass('btn-danger').addClass('btn-success');
+            console.log('ok');
+        }
+    });
 
 }
 
