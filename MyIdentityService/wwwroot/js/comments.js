@@ -75,7 +75,7 @@ function jsReplay(uuid, PostId) {
     let temp = ` 
         <div class="form-group mt-3 pl-3">
             <label for="comment" id="ComTxt">Comment:</label>
-            <textarea class="form-control" rows="5" id="RepComment"></textarea>
+            <textarea class="form-control" rows="5" id="RepComment${uuid}"></textarea>
         </div>
 <div class="pl-3 pb-3">
         <button id="AddComment${uuid}" type="button" class="btn btn-info" onclick="jsAddReplayComment('${uuid}','${PostId}')"> Send </button>
@@ -91,18 +91,18 @@ function jsReplay(uuid, PostId) {
 
 function jsAddReplayComment(uuid, PostId) {
 
-    var el = document.getElementById(uuid);
+    var el = document.getElementById("AddComment" + uuid);
     el.classList.remove("hide");
 
-    var element = document.getElementById("RepComment");
+    var element = document.getElementById("RepComment" + uuid);
    // element.classList.add("hide");
-    let resp = document.querySelector("#comm");
+    let resp = document.getElementById("comm"+uuid);
 
     let temp = ` 
         <li class="media mt-2">
                 <div class="media-left">
 
-                        <img class="media-object img-circle" src="/uploads/profiles/100x100." alt="...">
+                        <img class="media-object img-circle" src="/uploads/profiles/100x100.${ava}" alt="...">
                     
                 </div>
                 <div class="media-body">
@@ -115,7 +115,7 @@ function jsAddReplayComment(uuid, PostId) {
                         </div>
                         <div class="panel-body">
                             <div class="media-text text-justify">${element.value}</div>
-                            <div class="pull-right"><a class="btn btn-info" id="replayBtn" onclick="jsReplay()">Replay</a></div>
+                            <div class="pull-right"><a class="btn btn-info" id="replayBtn${uuid}" onclick="jsReplay()">Replay</a></div>
                                 <div id="replayText">
                                 </div>
                         </div>

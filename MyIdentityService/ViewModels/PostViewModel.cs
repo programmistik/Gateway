@@ -12,5 +12,6 @@ namespace MyIdentityService.ViewModels
         public Post Post { get; set; }
         public bool Owener { get; set; }
         public string CurrUserProfile { get; set; }
+        public VueViewModel VVM { get; set; }
     }
 }

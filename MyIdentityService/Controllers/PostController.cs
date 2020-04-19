@@ -13,6 +13,7 @@ using MyIdentityService.Services;
 using MyIdentityService.ViewModels;
 using Newtonsoft.Json;
 
+
 namespace MyIdentityService
 {
 
@@ -119,6 +120,10 @@ namespace MyIdentityService
         public async Task<IActionResult> Post(string id)
         {
             var vm = new PostViewModel();
+            vm.VVM = new VueViewModel();
+            var parser = new VueParser(); // in the real app you would use DI
+            vm.VVM.VueData = parser.ParseData(vm.VVM);
+
             var currPost = await GetPostByIdAsync(id);
             if(currPost.Comments != null)
                 fillProfiles(currPost.Comments);
