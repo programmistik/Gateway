@@ -51,32 +51,24 @@ new Vue({
     el: "#appComment",
     data: function () {
 
-        $.ajax({
-            url: '/Post/jsAddReplay',
-            type: 'POST',
-            data: { id: PostId, CommentId: uuid, Obj: CurrUserProfile, Text: tekst },
-            success: function (data) {
-                //let btn = $('#like');
-                //if (btn.hasClass('btn-danger')) {
-                //    btn.removeClass('btn-danger').addClass('btn-success');
-                console.log('ok');
-            }
-        });
+        var p1 = document.getElementById('PassingToJavaScript1').value;
         // parse the serialized data
-        return JSON.parse('@data');
+        return JSON.parse(p1);
     }
 
 });
 
-new Vue({
-    el: '#vue-app',
-    data: function () {
-        // parse the serialized data
-        return JSON.parse('@data');
-    }
-});
+//new Vue({
+//    el: '#vue-app',
+//    data: function () {
+//        // parse the serialized data
+//        var modelJSValue = myData;
+//        console.log(modelJSValue);
+//        return modelJSValue;//JSON.parse('@data');
+//    }
+//});
 
-Vue.component('header-component', {
-    props: ['menuItems'], // pass in the menu from the app
-    template: '<header><ul><li v-for="item in menuItems">{{ item  }}</li</ul></header>'
-});
+//Vue.component('header-component', {
+//    props: ['menuItems'], // pass in the menu from the app
+//    template: '<header><ul><li v-for="item in menuItems">{{ item  }}</li</ul></header>'
+//});

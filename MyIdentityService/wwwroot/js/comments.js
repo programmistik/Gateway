@@ -70,7 +70,7 @@ function jsReplay(uuid, PostId) {
   
     var element = document.getElementById("replayBtn"+uuid);
     element.classList.add("hide");
-    let rep = document.getElementById("replayText" + uuid);
+    let rep = document.getElementById("replayText" + uuid);   
 
     let temp = ` 
         <div class="form-group mt-3 pl-3">
@@ -94,9 +94,14 @@ function jsAddReplayComment(uuid, PostId) {
     var el = document.getElementById("AddComment" + uuid);
     el.classList.remove("hide");
 
+    var repBtn = document.getElementById("replayBtn" + uuid);
+    repBtn.classList.remove("hide");
+
     var element = document.getElementById("RepComment" + uuid);
    // element.classList.add("hide");
-    let resp = document.getElementById("comm"+uuid);
+    let resp = document.getElementById("comm" + uuid);
+
+    let child_uuid = create_UUID();
 
     let temp = ` 
         <li class="media mt-2">
@@ -115,8 +120,8 @@ function jsAddReplayComment(uuid, PostId) {
                         </div>
                         <div class="panel-body">
                             <div class="media-text text-justify">${element.value}</div>
-                            <div class="pull-right"><a class="btn btn-info" id="replayBtn${uuid}" onclick="jsReplay()">Replay</a></div>
-                                <div id="replayText">
+                            <div class="pull-right"><a class="btn btn-info" id="replayBtn${child_uuid}" onclick="jsReplay('${child_uuid}','${PostId}')">Replay</a></div>
+                                <div id="replayText${child_uuid}">
                                 </div>
                         </div>
                     </div>
@@ -132,17 +137,17 @@ function jsAddReplayComment(uuid, PostId) {
     document.getElementById("AddComment" + uuid).remove();
     resp.insertAdjacentHTML("beforebegin", temp);
 
-    $.ajax({
-        url: '/Post/jsAddReplay',
-        type: 'POST',
-        data: { id: PostId, CommentId: uuid, Obj: CurrUserProfile, Text: tekst },
-        success: function (data) {
-            //let btn = $('#like');
-            //if (btn.hasClass('btn-danger')) {
-            //    btn.removeClass('btn-danger').addClass('btn-success');
-            console.log('ok');
-        }
-    });
+    //$.ajax({
+    //    url: '/Post/jsAddReplay',
+    //    type: 'POST',
+    //    data: { id: PostId, ParentCommentId: uuid, CommentId: child_uuid, Obj: CurrUserProfile, Text: tekst },
+    //    success: function (data) {
+    //        //let btn = $('#like');
+    //        //if (btn.hasClass('btn-danger')) {
+    //        //    btn.removeClass('btn-danger').addClass('btn-success');
+    //        console.log('ok');
+    //    }
+    //});
 
 }
 

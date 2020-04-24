@@ -120,9 +120,9 @@ namespace MyIdentityService
         public async Task<IActionResult> Post(string id)
         {
             var vm = new PostViewModel();
-            vm.VVM = new VueViewModel();
-            var parser = new VueParser(); // in the real app you would use DI
-            vm.VVM.VueData = parser.ParseData(vm.VVM);
+            //vm.VVM = new VueViewModel();
+            //var parser = new VueParser(); // in the real app you would use DI
+            //vm.VueData = parser.ParseData(vm);
 
             var currPost = await GetPostByIdAsync(id);
             if(currPost.Comments != null)
@@ -130,6 +130,8 @@ namespace MyIdentityService
 
             vm.Profile = _profileService.Get(currPost.Profile.AppUserId);
             vm.Post = currPost;
+
+            vm.CommString = JsonConvert.SerializeObject(currPost.Comments);
 
             if (currPost.Profile.AppUserId == User.Identity.Name)
             {
@@ -563,7 +565,10 @@ namespace MyIdentityService
                 Comments = new List<Comment>(),
                 CommentText = Text,
                 ProfileId = prof.Id,
-                Profile = prof
+                Profile = prof,
+                PostId = id,
+                ProfileAvatara = prof.Avatara,
+                ProfileName = prof.Name
             };
 
             var post = //await GetPostByIdAsync(id);

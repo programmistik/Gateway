@@ -1,33 +1,4 @@
 ﻿@model PostViewModel
-@using Newtonsoft.Json;
-@using System.Web;
-
-@{
-
-    // here we do the serialization of our dictionary into JSON using Newtonsoft.Json package
-    // this object will be used in our Vue application
-
-    // over the years of web development, I've found out that the following
-    // serialization solves the problems I've encountered so far
-
-    // in a real app this would be created as a helper method somewhere
-    // if we want to exclude the c# code from our view
-    var serializationSettings = new JsonSerializerSettings()
-    {
-        ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
-        StringEscapeHandling = StringEscapeHandling.EscapeHtml
-    };
-
-    var data =
-        Html.Raw(
-             HttpUtility.JavaScriptStringEncode(
-                JsonConvert.SerializeObject(
-                    Model.VVM.VueData, Formatting.None, serializationSettings
-                ),
-             false)
-        );
-}
-
 
 @{
     ViewData["Title"] = "Post";
@@ -113,15 +84,11 @@
     </div>
 </ul>
 
-<main id="vue-app">
-    <header-component v-bind:menu-items="menu"></header-component>
-    <div>@Model.VVM.RazorMessage</div>
-    <div>{{message}}</div>
-</main>
+<input type="hidden" id="PassingToJavaScript1" value=@Model.CommString>
 
-@*<div id="appComment">
+<div id="appComment">
         <com-menu :UserName="comData.UserName" :CommentText="comData.CommentText" :Comments="comData.Comments" :depth="0"></com-menu>
-    </div>*@
+    </div>
 
 <div id="app">
     <tree-menu :label="tree.label" :nodes="tree.nodes" :depth="0"></tree-menu>
@@ -167,8 +134,11 @@
 
 }
 
+
 <script src="~/js/Like.js"></script>
 <script src="~/js/comments.js"></script>
+<script src="~/js/commSystem.js"></script>
+
 
 
 
