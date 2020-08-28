@@ -23,59 +23,27 @@ namespace MyIdentityService
     {
         private readonly ProfileService _profileService;
         private readonly IImageUploader _imageUploader;
+        private readonly APIService _apiService;
 
-        public PostController(ProfileService profileService, IImageUploader imageUploader)
+        public PostController(ProfileService profileService, IImageUploader imageUploader, APIService apiService)
         {
             _profileService = profileService;
             _imageUploader = imageUploader;
+            _apiService = apiService;
         }
 
         public async Task AddNewPostAsync(Post newPost)
         {
-
-
             var js = JsonConvert.SerializeObject(newPost);
-
-            //CONNECT
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-            if (disco.IsError)
-            {
-                // Console.WriteLine(disco.Error);
-                return;
-            }
-
-            //GET TOKEN
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "Post"
-            });
-            if (tokenResponse.IsError)
-            {
-                // Console.WriteLine(tokenResponse.Error);
-                return;
-            }
-            //Console.WriteLine(tokenResponse.Json);
-
-            //CALL API
-            client.SetBearerToken(tokenResponse.AccessToken);
+          
             HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
 
 
-
-            var response = await client.PostAsync("http://localhost:5012/post", cont);
-            if (!response.IsSuccessStatusCode)
+            var response = await _apiService.callPostAPI("http://localhost:5012/post", cont);
+            if (response.IsSuccessStatusCode)
             {
-                //Console.WriteLine(response.StatusCode);
-            }
-            else
-            {
+             
                 var content = await response.Content.ReadAsStringAsync();
-                //Console.WriteLine(content);
             }
 
         }
@@ -120,10 +88,7 @@ namespace MyIdentityService
         public async Task<IActionResult> Post(string id)
         {
             var vm = new PostViewModel();
-            //vm.VVM = new VueViewModel();
-            //var parser = new VueParser(); // in the real app you would use DI
-            //vm.VueData = parser.ParseData(vm);
-
+            
             var currPost = await GetPostByIdAsync(id);
             if(currPost.Comments != null)
                 fillProfiles(currPost.Comments);
@@ -149,38 +114,7 @@ namespace MyIdentityService
                 {
                     currPost.ViewsProfileId.Add(User.Identity.Name);
 
-                    //CONNECT
-                    var client = new HttpClient();
-                    var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-                    if (disco.IsError)
-                    {
-                        // Console.WriteLine(disco.Error);
-                        //return;
-                    }
-
-                    //GET TOKEN
-                    var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-                    {
-                        Address = disco.TokenEndpoint,
-
-                        ClientId = "client",
-                        ClientSecret = "secret",
-                        Scope = "Post"
-                    });
-                    if (tokenResponse.IsError)
-                    {
-                        // Console.WriteLine(tokenResponse.Error);
-                        //return;
-                    }
-                    //Console.WriteLine(tokenResponse.Json);
-
-                    //CALL API
-                    //var obj = new ReqStrViews
-                    //{
-                    //    Id = id,
-                    //    UserId = User.Identity.Name
-                    //};
-
+                  
 
                     var js = JsonConvert.SerializeObject(new 
                     {
@@ -189,20 +123,16 @@ namespace MyIdentityService
                     });
 
 
-                    client.SetBearerToken(tokenResponse.AccessToken);
+                    
                     HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
 
 
 
-                    var response = await client.PutAsync("http://localhost:5012/views", cont);
-                    if (!response.IsSuccessStatusCode)
+                    var response = await _apiService.callPutAPI("http://localhost:5012/views", cont);
+                    if (response.IsSuccessStatusCode)
                     {
-                        //Console.WriteLine(response.StatusCode);
-                    }
-                    else
-                    {
+                        
                         var content = await response.Content.ReadAsStringAsync();
-                        //Console.WriteLine(content);
                     }
                 }
             }
@@ -219,42 +149,10 @@ namespace MyIdentityService
         }
 
         private async Task<Post> GetPostByIdAsync(string id)
-        {
-            //CONNECT
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-            if (disco.IsError)
-            {
-                //Console.WriteLine(disco.Error);
-                //return;
-            }
-
-            //GET TOKEN
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "Post"
-            });
-            if (tokenResponse.IsError)
-            {
-                //Console.WriteLine(tokenResponse.Error);
-                //return;
-            }
-            // Console.WriteLine(tokenResponse.Json);
-
-            //CALL API
-            client.SetBearerToken(tokenResponse.AccessToken);
-
-            var response = await client.GetAsync("http://localhost:5012/post/" + id);
-            if (!response.IsSuccessStatusCode)
-            {
-                //  Console.WriteLine(response.StatusCode);
-            }
-            else
-            {
+        {   
+            var response = await _apiService.callGetAPI("http://localhost:5012/post/" + id);
+            if (response.IsSuccessStatusCode)
+            {               
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Post>(content);
             }
@@ -269,11 +167,7 @@ namespace MyIdentityService
             var ImgCreatorId = currPost.ProfileId;
 
             var currUserId = User.Identity.Name;
-
-            //if (ImgCreatorId != currUserId)
-            //// You cant add like to your own image
-
-            //{
+            
             var obj = new ReqStr
             {
                 Id = currPost.Id,
@@ -302,54 +196,14 @@ namespace MyIdentityService
         public async Task ChangePostAsync(ReqStr obj)
         {
 
-            // var js = JsonConvert.SerializeObject(editPost);
-
-            //CONNECT
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-            if (disco.IsError)
-            {
-                // Console.WriteLine(disco.Error);
-                return;
-            }
-
-            //GET TOKEN
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "Post"
-            });
-            if (tokenResponse.IsError)
-            {
-                // Console.WriteLine(tokenResponse.Error);
-                return;
-            }
-            //Console.WriteLine(tokenResponse.Json);
-
-            //CALL API
-
-
-
             var js = JsonConvert.SerializeObject(obj);
 
-
-            client.SetBearerToken(tokenResponse.AccessToken);
             HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
 
-
-
-            var response = await client.PutAsync("http://localhost:5012/posts", cont);
-            if (!response.IsSuccessStatusCode)
-            {
-                //Console.WriteLine(response.StatusCode);
-            }
-            else
+            var response = await _apiService.callPutAPI("http://localhost:5012/posts", cont);
+            if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                //Console.WriteLine(content);
             }
 
         }
@@ -357,50 +211,11 @@ namespace MyIdentityService
         [HttpDelete]
         public async Task jsDelPost(string id)
         {
-
-            //CONNECT
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-            if (disco.IsError)
-            {
-                // Console.WriteLine(disco.Error);
-                return;
-            }
-
-            //GET TOKEN
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "Post"
-            });
-            if (tokenResponse.IsError)
-            {
-                // Console.WriteLine(tokenResponse.Error);
-                return;
-            }
-            //Console.WriteLine(tokenResponse.Json);
-
-            //CALL API
-
-
-            client.SetBearerToken(tokenResponse.AccessToken);
-
-
-            var response = await client.DeleteAsync("http://localhost:5012/posts/" + id);
-            if (!response.IsSuccessStatusCode)
-            {
-                //Console.WriteLine(response.StatusCode);
-                // return RedirectToAction("UserProfile", "Profile", new { id = 2 });
-            }
-            else
+            var response = await _apiService.callDeleteAPI("http://localhost:5012/posts/" + id);
+            if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                //Console.WriteLine(content);
             }
-
 
         }
 
@@ -411,50 +226,13 @@ namespace MyIdentityService
             var myProfile = _profileService.Get(User.Identity.Name);
             var myId = User.Identity.Name;
 
-            //foreach (var itm in myProfile.Friends)
-            //{
-            //    var id = itm;
-
-
-                //CONNECT
-                var client = new HttpClient();
-                var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-                if (disco.IsError)
-                {
-                    //Console.WriteLine(disco.Error);
-                    //return;
-                }
-
-                //GET TOKEN
-                var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-                {
-                    Address = disco.TokenEndpoint,
-
-                    ClientId = "client",
-                    ClientSecret = "secret",
-                    Scope = "Post"
-                });
-                if (tokenResponse.IsError)
-                {
-                    //Console.WriteLine(tokenResponse.Error);
-                    //return;
-                }
-
-
-                //CALL API
-                client.SetBearerToken(tokenResponse.AccessToken);
-                
-                var posts = new List<Post>();
+            var posts = new List<Post>();
 
             //var response = await client.GetAsync("http://localhost:5000/views/" + id + "/"+myId);
-            var response = await client.GetAsync("http://localhost:5012/views/" + "smthg" + "/" + myId);
-            if (!response.IsSuccessStatusCode)
+            var response = await _apiService.callGetAPI("http://localhost:5012/views/" + "smthg" + "/" + myId);
+            if (response.IsSuccessStatusCode)
                 {
-                    //  Console.WriteLine(response.StatusCode);
-                    // Result = new List<PostViewModel>();
-                }
-                else
-                {
+                    
                     var content = await response.Content.ReadAsStringAsync();
                     posts = JsonConvert.DeserializeObject<List<Post>>(content);
 
@@ -473,7 +251,7 @@ namespace MyIdentityService
                             }
 
                         }
-               // }
+               
                 
             }
             return View(new NewsViewModel() {NewsList = Result, news = JsonConvert.SerializeObject(Result) } );
@@ -498,55 +276,15 @@ namespace MyIdentityService
             post.ViewsProfileId = currPost.ViewsProfileId;
             post.Comments = currPost.Comments;
 
-            //CONNECT
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-            if (disco.IsError)
-            {
-                // Console.WriteLine(disco.Error);
-                //return;
-            }
-
-            //GET TOKEN
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "Post"
-            });
-            if (tokenResponse.IsError)
-            {
-                // Console.WriteLine(tokenResponse.Error);
-                //return;
-            }
-            //Console.WriteLine(tokenResponse.Json);
-
-            //CALL API
-
-
-
             var js = JsonConvert.SerializeObject(post);
-
-
-            client.SetBearerToken(tokenResponse.AccessToken);
+           
             HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
 
-
-
-            var response = await client.PutAsync("http://localhost:5012/post", cont);
-            if (!response.IsSuccessStatusCode)
-            {
-                //Console.WriteLine(response.StatusCode);
-            }
-            else
+            var response = await _apiService.callPutAPI("http://localhost:5012/post", cont);
+            if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                //Console.WriteLine(content);
             }
-
-
 
             return RedirectToAction("UserProfile", "Profile", new { id = 2 });
         }
@@ -578,55 +316,14 @@ namespace MyIdentityService
                     Comment = newComment
                 };
 
-           // post.Comments.Add(newComment);
-
-
-            //CONNECT
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-            if (disco.IsError)
-            {
-                // Console.WriteLine(disco.Error);
-                //return;
-            }
-
-            //GET TOKEN
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "Post"
-            });
-            if (tokenResponse.IsError)
-            {
-                // Console.WriteLine(tokenResponse.Error);
-                //return;
-            }
-            //Console.WriteLine(tokenResponse.Json);
-
-            //CALL API
-
-
-
             var js = JsonConvert.SerializeObject(post);
-
-
-            client.SetBearerToken(tokenResponse.AccessToken);
             HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
 
-
-
-            var response = await client.PutAsync("http://localhost:5012/comments", cont);
-            if (!response.IsSuccessStatusCode)
+            var response = await _apiService.callPutAPI("http://localhost:5012/comments", cont);
+            if (response.IsSuccessStatusCode)
             {
-                //Console.WriteLine(response.StatusCode);
-            }
-            else
-            {
+               
                 var content = await response.Content.ReadAsStringAsync();
-                //Console.WriteLine(content);
             }
         }
     }

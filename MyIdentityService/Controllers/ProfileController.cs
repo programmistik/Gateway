@@ -21,61 +21,32 @@ namespace MyIdentityService.Controllers
         private readonly ProfileService _profileService;
         private readonly IImageUploader _imageUploader;
         private readonly UserManager<MyIdentityServiceUser> _userManager;
+        private readonly APIService _apiService;
 
-        public ProfileController(ProfileService profileService, IImageUploader imageUploader, UserManager<MyIdentityServiceUser> userManager)
+        public ProfileController(ProfileService profileService, IImageUploader imageUploader, UserManager<MyIdentityServiceUser> userManager, APIService apiService)
         {
             _profileService = profileService;
             _imageUploader = imageUploader;
             _userManager = userManager;
+            _apiService = apiService;
         }
 
         private async Task<List<Post>> GetPostsAsync ()
         {
-            //CONNECT
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-            if (disco.IsError)
-            {
-                //Console.WriteLine(disco.Error);
-                //return;
-            }
-
-            //GET TOKEN
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "Post"
-            });
-            if (tokenResponse.IsError)
-            {
-                //Console.WriteLine(tokenResponse.Error);
-                //return;
-            }
-
-            //CALL API
-            client.SetBearerToken(tokenResponse.AccessToken);
-
+            
             var profile = _profileService.Get(User.Identity.Name);
 
             var UserId = profile.AppUserId;
 
-            var response = await client.GetAsync("http://localhost:5012/posts/"+UserId);
-            if (!response.IsSuccessStatusCode)
+            var response = await _apiService.callGetAPI("http://localhost:5012/posts/"+UserId);
+            if (response.IsSuccessStatusCode)
             {
-              //  Console.WriteLine(response.StatusCode);
-            }
-            else
-            {
+             
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Post>>(content);
             }
             return new List<Post>();
         }
-
-      
 
         public async Task<IActionResult> UserProfile(int id = 1)
         {
@@ -99,8 +70,6 @@ namespace MyIdentityService.Controllers
 
         public IActionResult ChangeProfile()
         {
-            
-
             return View(_profileService.Get(User.Identity.Name));
         }
 
@@ -151,43 +120,15 @@ namespace MyIdentityService.Controllers
 
         private async Task<List<Post>> GetPostsAsyncById(string AppUserId)
         {
-            //CONNECT
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-            if (disco.IsError)
-            {
-                //Console.WriteLine(disco.Error);
-                //return;
-            }
 
-            //GET TOKEN
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "Post"
-            });
-
-            if (!tokenResponse.IsError)
-            {
-                //CALL API
-                client.SetBearerToken(tokenResponse.AccessToken);
-
-
-                var response = await client.GetAsync("http://localhost:5012/posts/" + AppUserId);
-                if (!response.IsSuccessStatusCode)
+                var response = await _apiService.callGetAPI("http://localhost:5012/posts/" + AppUserId);
+                if (response.IsSuccessStatusCode)
                 {
-                    //  Console.WriteLine(response.StatusCode);
-                }
-                else
-                {
+                   
                     var content = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<List<Post>>(content);
                 }
-            }
-
+           
             return new List<Post>();
         }
 
@@ -214,52 +155,15 @@ namespace MyIdentityService.Controllers
         public async Task ChangeFriendListAsync(ReqFriendStr obj)
         {
 
-            //CONNECT
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
-            if (disco.IsError)
-            {
-                // Console.WriteLine(disco.Error);
-                return;
-            }
-
-            //GET TOKEN
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "secret",
-                Scope = "Post"
-            });
-            if (tokenResponse.IsError)
-            {
-                // Console.WriteLine(tokenResponse.Error);
-                return;
-            }
-            //Console.WriteLine(tokenResponse.Json);
-
-            //CALL API
-
-
-
             var js = JsonConvert.SerializeObject(obj);
 
-
-            client.SetBearerToken(tokenResponse.AccessToken);
             HttpContent cont = new StringContent(js, Encoding.UTF8, "application/json");
 
-
-
-            var response = await client.PutAsync("http://localhost:5012/friends", cont);
-            if (!response.IsSuccessStatusCode)
+            var response = await _apiService.callPutAPI("http://localhost:5012/friends", cont);
+            if (response.IsSuccessStatusCode)
             {
-                //Console.WriteLine(response.StatusCode);
-            }
-            else
-            {
+                
                 var content = await response.Content.ReadAsStringAsync();
-                //Console.WriteLine(content);
             }
 
         }
